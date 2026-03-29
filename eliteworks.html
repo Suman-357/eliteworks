@@ -1,0 +1,1986 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" href="icon.png">
+  <title>Elite Works — Glass · Fabrication · Aluminium</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Jost:wght@300;400;500;600&display=swap"
+    rel="stylesheet">
+  <style>
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --bg: #080c10;
+      --bg2: #0d1117;
+      --bg3: #111820;
+      --blue: #1a6fd4;
+      --blue-light: #4d9de0;
+      --blue-glow: rgba(26, 111, 212, 0.3);
+      --cyan: #7dd3fc;
+      --white: #f0f4f8;
+      --muted: #8899aa;
+      --border: rgba(77, 157, 224, 0.15);
+      --border2: rgba(77, 157, 224, 0.08);
+      --gold: #c9a84c;
+      --pad: clamp(60px, 8vw, 120px);
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--white);
+      font-family: 'Jost', sans-serif;
+      font-weight: 300;
+      overflow-x: hidden;
+    }
+
+    /* CURSOR */
+    #cur {
+      width: 8px;
+      height: 8px;
+      background: var(--blue-light);
+      border-radius: 50%;
+      position: fixed;
+      pointer-events: none;
+      z-index: 9999;
+      transform: translate(-50%, -50%);
+      transition: width .3s, height .3s;
+    }
+
+    #cur-r {
+      width: 32px;
+      height: 32px;
+      border: 1px solid rgba(77, 157, 224, 0.5);
+      border-radius: 50%;
+      position: fixed;
+      pointer-events: none;
+      z-index: 9998;
+      transform: translate(-50%, -50%);
+      transition: left .5s cubic-bezier(.25, .46, .45, .94), top .5s cubic-bezier(.25, .46, .45, .94), width .3s, height .3s;
+    }
+
+    /* NAV */
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 200;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 18px clamp(20px, 5vw, 70px);
+      transition: background .4s, border-color .4s;
+      border-bottom: 1px solid transparent;
+    }
+
+    nav.scrolled {
+      background: rgba(8, 12, 16, 0.95);
+      backdrop-filter: blur(20px);
+      border-color: var(--border);
+    }
+
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      text-decoration: none;
+    }
+
+    .nav-logo img {
+      height: 48px;
+      width: auto;
+      filter: drop-shadow(0 0 12px rgba(77, 157, 224, 0.5));
+    }
+
+    .nav-brand {
+      display: flex;
+      flex-direction: column;
+      line-height: 1;
+    }
+
+    .nav-brand-name {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.2rem;
+      font-weight: 700;
+      letter-spacing: .06em;
+      color: var(--white);
+    }
+
+    .nav-brand-sub {
+      font-size: .6rem;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      color: var(--blue-light);
+      margin-top: 2px;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 36px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-size: .75rem;
+      font-weight: 500;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      text-decoration: none;
+      transition: color .3s;
+      position: relative;
+    }
+
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: 0;
+      width: 0;
+      height: 1px;
+      background: var(--blue-light);
+      transition: width .3s;
+    }
+
+    .nav-links a:hover {
+      color: var(--white);
+    }
+
+    .nav-links a:hover::after {
+      width: 100%;
+    }
+
+    .nav-cta {
+      padding: 9px 24px;
+      background: linear-gradient(135deg, var(--blue), var(--blue-light));
+      color: #fff;
+      font-size: .72rem;
+      font-weight: 600;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      text-decoration: none;
+      border-radius: 4px;
+      transition: opacity .3s, transform .2s;
+      box-shadow: 0 0 20px var(--blue-glow);
+    }
+
+    .nav-cta:hover {
+      opacity: .85;
+      transform: translateY(-1px);
+    }
+
+    /* HERO */
+    .hero {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 1.1fr 1fr;
+      position: relative;
+      overflow: hidden;
+      padding-top: 86px;
+    }
+
+    /* animated bg */
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+    }
+
+    .hero-bg::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 80% 60% at 20% 50%, rgba(26, 111, 212, 0.12) 0%, transparent 60%),
+        radial-gradient(ellipse 50% 50% at 80% 80%, rgba(77, 157, 224, 0.06) 0%, transparent 60%),
+        radial-gradient(ellipse 40% 40% at 60% 10%, rgba(125, 211, 252, 0.05) 0%, transparent 60%);
+    }
+
+    /* particle grid */
+    .p-grid {
+      position: absolute;
+      inset: 0;
+      background-image: linear-gradient(rgba(77, 157, 224, 0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(77, 157, 224, 0.04) 1px, transparent 1px);
+      background-size: 60px 60px;
+    }
+
+    /* floating orbs */
+    .orb {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(80px);
+      animation: orbFloat 10s ease-in-out infinite;
+    }
+
+    .orb1 {
+      width: 500px;
+      height: 500px;
+      background: rgba(26, 111, 212, 0.08);
+      top: -100px;
+      left: -100px;
+      animation-delay: 0s;
+    }
+
+    .orb2 {
+      width: 300px;
+      height: 300px;
+      background: rgba(77, 157, 224, 0.06);
+      bottom: 0;
+      right: 20%;
+      animation-delay: 4s;
+    }
+
+    .orb3 {
+      width: 200px;
+      height: 200px;
+      background: rgba(125, 211, 252, 0.05);
+      top: 40%;
+      right: 10%;
+      animation-delay: 7s;
+    }
+
+    @keyframes orbFloat {
+
+      0%,
+      100% {
+        transform: translate(0, 0);
+      }
+
+      50% {
+        transform: translate(30px, -40px);
+      }
+    }
+
+    .hero-left {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 60px clamp(20px, 5vw, 70px);
+    }
+
+    .hero-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 6px 18px 6px 8px;
+      background: rgba(26, 111, 212, 0.12);
+      border: 1px solid rgba(77, 157, 224, 0.25);
+      border-radius: 100px;
+      margin-bottom: 32px;
+      width: fit-content;
+      opacity: 0;
+      animation: up .7s .1s forwards;
+    }
+
+    .hero-pill-dot {
+      width: 6px;
+      height: 6px;
+      background: var(--blue-light);
+      border-radius: 50%;
+      animation: blink 2s infinite;
+    }
+
+    @keyframes blink {
+
+      0%,
+      100% {
+        opacity: 1;
+      }
+
+      50% {
+        opacity: .3;
+      }
+    }
+
+    .hero-pill-text {
+      font-size: .68rem;
+      font-weight: 600;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+      color: var(--blue-light);
+    }
+
+    .hero-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.8rem, 5.5vw, 5.2rem);
+      font-weight: 700;
+      line-height: 1.08;
+      letter-spacing: -.01em;
+      opacity: 0;
+      animation: up .9s .25s forwards;
+    }
+
+    .hero-title .line2 {
+      font-style: italic;
+      font-weight: 400;
+      color: var(--blue-light);
+    }
+
+    .hero-title .line3 {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .hero-title .line3::after {
+      content: '';
+      flex: 1;
+      height: 2px;
+      background: linear-gradient(90deg, var(--blue), transparent);
+      max-width: 120px;
+    }
+
+    .hero-sub {
+      margin-top: 24px;
+      font-size: clamp(.88rem, 1.2vw, .98rem);
+      color: var(--muted);
+      line-height: 1.85;
+      max-width: 440px;
+      opacity: 0;
+      animation: up .9s .42s forwards;
+    }
+
+    .hero-actions {
+      margin-top: 40px;
+      display: flex;
+      gap: 16px;
+      align-items: center;
+      opacity: 0;
+      animation: up .9s .58s forwards;
+      flex-wrap: wrap;
+    }
+
+    .btn-blue {
+      padding: 13px 32px;
+      background: linear-gradient(135deg, var(--blue), #2580e8);
+      color: #fff;
+      font-size: .78rem;
+      font-weight: 600;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      text-decoration: none;
+      border-radius: 6px;
+      box-shadow: 0 4px 24px var(--blue-glow);
+      transition: transform .2s, box-shadow .3s;
+    }
+
+    .btn-blue:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 32px rgba(26, 111, 212, 0.5);
+    }
+
+    .btn-glass {
+      padding: 13px 32px;
+      border: 1px solid var(--border);
+      color: var(--muted);
+      font-size: .78rem;
+      font-weight: 500;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      text-decoration: none;
+      border-radius: 6px;
+      transition: border-color .3s, color .3s;
+    }
+
+    .btn-glass:hover {
+      border-color: var(--blue-light);
+      color: var(--white);
+    }
+
+    .hero-stats {
+      display: flex;
+      gap: 0;
+      margin-top: 52px;
+      opacity: 0;
+      animation: up .9s .72s forwards;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      overflow: hidden;
+      background: rgba(255, 255, 255, 0.02);
+      backdrop-filter: blur(10px);
+    }
+
+    .hstat {
+      flex: 1;
+      padding: 20px 24px;
+      text-align: center;
+      border-right: 1px solid var(--border);
+    }
+
+    .hstat:last-child {
+      border-right: none;
+    }
+
+    .hstat-n {
+      font-family: 'Playfair Display', serif;
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--white);
+      line-height: 1;
+    }
+
+    .hstat-n sup {
+      font-size: 1rem;
+      color: var(--blue-light);
+    }
+
+    .hstat-l {
+      font-size: .65rem;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-top: 4px;
+    }
+
+    /* hero right */
+    .hero-right {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 60px 40px;
+    }
+
+    .logo-showcase {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .logo-ring {
+      position: absolute;
+      border-radius: 50%;
+      animation: spin linear infinite;
+    }
+
+    .ring1 {
+      width: 380px;
+      height: 380px;
+      border: 1px solid rgba(77, 157, 224, 0.15);
+      animation-duration: 30s;
+    }
+
+    .ring2 {
+      width: 300px;
+      height: 300px;
+      border: 1px solid rgba(77, 157, 224, 0.1);
+      animation-duration: 20s;
+      animation-direction: reverse;
+    }
+
+    .ring3 {
+      width: 220px;
+      height: 220px;
+      border: 1px dashed rgba(77, 157, 224, 0.12);
+      animation-duration: 40s;
+    }
+
+    @keyframes spin {
+      from {
+        transform: rotate(0deg);
+      }
+
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    .ring-dot {
+      position: absolute;
+      width: 6px;
+      height: 6px;
+      background: var(--blue-light);
+      border-radius: 50%;
+      box-shadow: 0 0 10px var(--blue-light);
+    }
+
+    .ring1 .ring-dot {
+      top: -3px;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    .ring2 .ring-dot {
+      bottom: -3px;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    .logo-img-wrap {
+      position: relative;
+      z-index: 2;
+    }
+
+    .logo-img-wrap img {
+      width: 260px;
+      height: auto;
+      filter: drop-shadow(0 0 40px rgba(77, 157, 224, 0.6)) drop-shadow(0 20px 40px rgba(0, 0, 0, 0.5));
+      animation: logoFloat 5s ease-in-out infinite;
+    }
+
+    @keyframes logoFloat {
+
+      0%,
+      100% {
+        transform: translateY(0);
+      }
+
+      50% {
+        transform: translateY(-16px);
+      }
+    }
+
+    .logo-glow {
+      position: absolute;
+      width: 200px;
+      height: 200px;
+      background: radial-gradient(circle, rgba(77, 157, 224, 0.2) 0%, transparent 70%);
+      border-radius: 50%;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+
+    @keyframes up {
+      from {
+        opacity: 0;
+        transform: translateY(28px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* MARQUEE */
+    .marquee-wrap {
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      padding: 16px 0;
+      background: var(--bg2);
+      overflow: hidden;
+    }
+
+    .m-track {
+      display: flex;
+      width: max-content;
+      animation: mq 22s linear infinite;
+    }
+
+    .m-item {
+      display: flex;
+      align-items: center;
+      gap: 0;
+      font-size: .72rem;
+      font-weight: 600;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+      color: rgba(255, 255, 255, 0.2);
+      white-space: nowrap;
+    }
+
+    .m-sep {
+      color: var(--blue-light);
+      padding: 0 24px;
+      font-size: 1rem;
+    }
+
+    @keyframes mq {
+      from {
+        transform: translateX(0);
+      }
+
+      to {
+        transform: translateX(-50%);
+      }
+    }
+
+    /* SERVICES */
+    .services {
+      padding: var(--pad) clamp(20px, 5vw, 70px);
+      background: var(--bg);
+    }
+
+    .sec-eyebrow {
+      font-size: .68rem;
+      font-weight: 600;
+      letter-spacing: .22em;
+      text-transform: uppercase;
+      color: var(--blue-light);
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .sec-eyebrow::before {
+      content: '';
+      width: 24px;
+      height: 1px;
+      background: var(--blue-light);
+    }
+
+    .sec-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.2rem, 4vw, 3.8rem);
+      font-weight: 700;
+      line-height: 1.1;
+      margin-bottom: 56px;
+    }
+
+    .sec-title em {
+      font-style: italic;
+      color: var(--blue-light);
+    }
+
+    .svc-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2px;
+      background: var(--border2);
+    }
+
+    .svc-card {
+      background: var(--bg2);
+      padding: 48px 40px;
+      position: relative;
+      overflow: hidden;
+      transition: background .4s;
+      cursor: default;
+    }
+
+    .svc-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(26, 111, 212, 0.08) 0%, transparent 60%);
+      opacity: 0;
+      transition: opacity .4s;
+    }
+
+    .svc-card::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--blue), var(--cyan));
+      transition: width .5s ease;
+    }
+
+    .svc-card:hover::before {
+      opacity: 1;
+    }
+
+    .svc-card:hover {
+      background: var(--bg3);
+    }
+
+    .svc-card:hover::after {
+      width: 100%;
+    }
+
+    .svc-n {
+      font-family: 'Playfair Display', serif;
+      font-size: 5rem;
+      color: rgba(77, 157, 224, 0.05);
+      position: absolute;
+      top: 16px;
+      right: 24px;
+      line-height: 1;
+      transition: color .4s;
+    }
+
+    .svc-card:hover .svc-n {
+      color: rgba(77, 157, 224, 0.1);
+    }
+
+    .svc-ico {
+      width: 54px;
+      height: 54px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 28px;
+      transition: border-color .4s, background .4s;
+    }
+
+    .svc-card:hover .svc-ico {
+      border-color: var(--blue);
+      background: rgba(26, 111, 212, 0.12);
+    }
+
+    .svc-name {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.7rem;
+      font-weight: 600;
+      margin-bottom: 14px;
+    }
+
+    .svc-desc {
+      font-size: .87rem;
+      color: var(--muted);
+      line-height: 1.85;
+    }
+
+    .svc-bullets {
+      margin-top: 20px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .svc-bullet {
+      padding: 5px 14px;
+      background: rgba(77, 157, 224, 0.06);
+      border: 1px solid var(--border);
+      border-radius: 100px;
+      font-size: .7rem;
+      letter-spacing: .08em;
+      color: var(--muted);
+      transition: background .3s, color .3s, border-color .3s;
+    }
+
+    .svc-card:hover .svc-bullet {
+      background: rgba(26, 111, 212, 0.12);
+      border-color: rgba(77, 157, 224, 0.3);
+      color: var(--cyan);
+    }
+
+    /* ABOUT */
+    .about {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      background: var(--bg2);
+    }
+
+    .about-visual {
+      padding: var(--pad) clamp(20px, 5vw, 70px);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      background: var(--bg3);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .about-visual::before {
+      content: '';
+      position: absolute;
+      top: -200px;
+      right: -200px;
+      width: 600px;
+      height: 600px;
+      background: radial-gradient(circle, rgba(26, 111, 212, 0.08) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .about-logo-large {
+      width: 200px;
+      height: auto;
+      margin-bottom: 40px;
+      filter: drop-shadow(0 0 30px rgba(77, 157, 224, 0.4));
+    }
+
+    .about-quote {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.4rem, 2.5vw, 2rem);
+      font-style: italic;
+      font-weight: 400;
+      line-height: 1.5;
+      color: var(--white);
+      margin-bottom: 24px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .about-quote::before {
+      content: '"';
+      font-size: 6rem;
+      color: rgba(77, 157, 224, 0.1);
+      position: absolute;
+      top: -30px;
+      left: -20px;
+      font-family: 'Playfair Display', serif;
+      line-height: 1;
+    }
+
+    .about-attr {
+      font-size: .7rem;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+      color: var(--blue-light);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .about-attr::before {
+      content: '';
+      width: 20px;
+      height: 1px;
+      background: var(--blue-light);
+    }
+
+    .stat-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      background: var(--border);
+      margin-top: 40px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    .sbox {
+      padding: 22px;
+      background: var(--bg2);
+      text-align: center;
+    }
+
+    .sbox-n {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.2rem;
+      font-weight: 700;
+      color: var(--white);
+    }
+
+    .sbox-n span {
+      color: var(--blue-light);
+    }
+
+    .sbox-l {
+      font-size: .63rem;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-top: 4px;
+    }
+
+    .about-content {
+      padding: var(--pad) clamp(20px, 5vw, 70px);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .feat-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+
+    .feat {
+      display: flex;
+      gap: 20px;
+      padding: 28px 0;
+      border-bottom: 1px solid var(--border2);
+      align-items: flex-start;
+      transition: padding-left .3s;
+    }
+
+    .feat:last-child {
+      border-bottom: none;
+    }
+
+    .feat:hover {
+      padding-left: 6px;
+    }
+
+    .feat-icon {
+      width: 40px;
+      height: 40px;
+      flex-shrink: 0;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background .3s, border-color .3s;
+    }
+
+    .feat:hover .feat-icon {
+      background: rgba(26, 111, 212, 0.15);
+      border-color: var(--blue);
+    }
+
+    .feat-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin-bottom: 6px;
+    }
+
+    .feat-desc {
+      font-size: .83rem;
+      color: var(--muted);
+      line-height: 1.75;
+    }
+
+    /* PROCESS */
+    .process {
+      padding: var(--pad) clamp(20px, 5vw, 70px);
+      background: var(--bg);
+    }
+
+    .process-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 2px;
+      background: var(--border2);
+      margin-top: 56px;
+    }
+
+    .pcard {
+      background: var(--bg2);
+      padding: 40px 28px;
+      position: relative;
+      overflow: hidden;
+      transition: background .4s;
+      cursor: default;
+    }
+
+    .pcard:hover {
+      background: var(--bg3);
+    }
+
+    .pcard-line {
+      position: absolute;
+      top: 56px;
+      right: -50%;
+      width: 100%;
+      height: 1px;
+      background: linear-gradient(90deg, var(--border), transparent);
+      z-index: 0;
+    }
+
+    .pcard:last-child .pcard-line {
+      display: none;
+    }
+
+    .pcard-num {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Playfair Display', serif;
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: var(--blue-light);
+      margin-bottom: 24px;
+      position: relative;
+      z-index: 1;
+      background: var(--bg2);
+      transition: border-color .4s, background .4s, box-shadow .4s;
+    }
+
+    .pcard:hover .pcard-num {
+      border-color: var(--blue);
+      background: rgba(26, 111, 212, 0.12);
+      box-shadow: 0 0 20px var(--blue-glow);
+    }
+
+    .pcard-name {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.15rem;
+      font-weight: 600;
+      margin-bottom: 10px;
+    }
+
+    .pcard-desc {
+      font-size: .8rem;
+      color: var(--muted);
+      line-height: 1.75;
+    }
+
+    /* FEATURED PROJECTS CAROUSEL */
+    .gallery {
+      padding: var(--pad) clamp(20px, 5vw, 70px);
+      background: var(--bg2);
+    }
+
+    .carousel-wrap {
+      position: relative;
+      margin-top: 56px;
+      border-radius: 12px;
+      overflow: hidden;
+      background: var(--bg3);
+      border: 1px solid var(--border2);
+    }
+
+    .carousel-track {
+      display: flex;
+      transition: transform 0.6s cubic-bezier(0.4, 0.0, 0.2, 1);
+      width: 100%;
+    }
+
+    .carousel-slide {
+      min-width: 100%;
+      height: 500px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .carousel-slide img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+
+    .carousel-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(10, 15, 26, 0.6);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      transition: all 0.3s ease;
+      z-index: 10;
+    }
+
+    .carousel-btn:hover {
+      background: var(--blue);
+      border-color: var(--blue-light);
+    }
+
+    .carousel-prev {
+      left: 20px;
+    }
+
+    .carousel-next {
+      right: 20px;
+    }
+
+    .carousel-dots {
+      position: absolute;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 12px;
+      z-index: 10;
+    }
+
+    .carousel-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.3);
+      border: none;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .carousel-dot.active {
+      background: var(--blue);
+      transform: scale(1.3);
+    }
+
+    /* CONTACT */
+    .contact {
+      padding: var(--pad) clamp(20px, 5vw, 70px);
+      background: var(--bg);
+      display: grid;
+      grid-template-columns: 1fr 1.3fr;
+      gap: 80px;
+      align-items: start;
+    }
+
+    .cinfo {}
+
+    .cdetail {
+      display: flex;
+      gap: 16px;
+      align-items: flex-start;
+      margin-bottom: 28px;
+    }
+
+    .cicon {
+      width: 44px;
+      height: 44px;
+      flex-shrink: 0;
+      background: rgba(26, 111, 212, 0.1);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .clabel {
+      font-size: .64rem;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      color: var(--blue-light);
+      margin-bottom: 3px;
+    }
+
+    .cval {
+      font-size: .92rem;
+      color: var(--white);
+    }
+
+    .cform {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 44px;
+    }
+
+    .form-hed {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.6rem;
+      font-weight: 700;
+      margin-bottom: 32px;
+    }
+
+    .frow {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin-bottom: 14px;
+    }
+
+    .fg {
+      margin-bottom: 14px;
+    }
+
+    .fg label {
+      display: block;
+      font-size: .64rem;
+      font-weight: 600;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 7px;
+    }
+
+    .fg input,
+    .fg select,
+    .fg textarea {
+      width: 100%;
+      padding: 12px 15px;
+      background: var(--bg3);
+      border: 1px solid var(--border2);
+      border-radius: 8px;
+      color: var(--white);
+      font-family: 'Jost', sans-serif;
+      font-size: .87rem;
+      outline: none;
+      transition: border-color .3s;
+      -webkit-appearance: none;
+    }
+
+    .fg select option {
+      background: var(--bg3);
+    }
+
+    .fg input:focus,
+    .fg select:focus,
+    .fg textarea:focus {
+      border-color: var(--blue);
+    }
+
+    .fg textarea {
+      resize: vertical;
+      min-height: 110px;
+    }
+
+    .fsubmit {
+      width: 100%;
+      padding: 14px;
+      background: linear-gradient(135deg, var(--blue), #2580e8);
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      font-family: 'Jost', sans-serif;
+      font-size: .8rem;
+      font-weight: 600;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: opacity .3s, transform .2s;
+      box-shadow: 0 4px 20px var(--blue-glow);
+    }
+
+    .fsubmit:hover {
+      opacity: .85;
+      transform: translateY(-2px);
+    }
+
+    /* FOOTER */
+    footer {
+      background: var(--bg2);
+      border-top: 1px solid var(--border2);
+      padding: 56px clamp(20px, 5vw, 70px) 32px;
+    }
+
+    .footer-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      padding-bottom: 40px;
+      border-bottom: 1px solid var(--border2);
+      gap: 40px;
+      flex-wrap: wrap;
+    }
+
+    .footer-brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .footer-brand img {
+      height: 52px;
+      filter: drop-shadow(0 0 10px rgba(77, 157, 224, 0.4));
+    }
+
+    .footer-brand-text {}
+
+    .footer-name {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: var(--white);
+    }
+
+    .footer-tagline {
+      font-size: .63rem;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      color: var(--blue-light);
+      margin-top: 2px;
+    }
+
+    .fcol h5 {
+      font-size: .64rem;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      color: rgba(255, 255, 255, 0.25);
+      margin-bottom: 16px;
+    }
+
+    .fcol ul {
+      list-style: none;
+    }
+
+    .fcol ul li {
+      margin-bottom: 10px;
+    }
+
+    .fcol ul a {
+      font-size: .83rem;
+      color: var(--muted);
+      text-decoration: none;
+      transition: color .25s;
+    }
+
+    .fcol ul a:hover {
+      color: var(--blue-light);
+    }
+
+    .footer-bottom {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-top: 28px;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .fcopy {
+      font-size: .72rem;
+      color: rgba(255, 255, 255, 0.2);
+    }
+
+    .fmade {
+      font-size: .72rem;
+      color: var(--blue-light);
+      letter-spacing: .08em;
+    }
+
+    /* REVEAL */
+    .rev {
+      opacity: 0;
+      transform: translateY(32px);
+      transition: opacity .8s ease, transform .8s ease;
+    }
+
+    .rev.vis {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .rd1 {
+      transition-delay: .1s;
+    }
+
+    .rd2 {
+      transition-delay: .2s;
+    }
+
+    .rd3 {
+      transition-delay: .3s;
+    }
+
+    .rd4 {
+      transition-delay: .4s;
+    }
+
+    @media(max-width:1024px) {
+      .hero {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-right {
+        display: none;
+      }
+
+      .about {
+        grid-template-columns: 1fr;
+      }
+
+      .process-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .svc-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .gallery-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .gcard:nth-child(1) {
+        grid-column: span 2;
+      }
+
+      .contact {
+        grid-template-columns: 1fr;
+        gap: 48px;
+      }
+    }
+
+    @media(max-width:768px) {
+
+      .nav-links,
+      .nav-cta {
+        display: none;
+      }
+
+      .hero-stats {
+        flex-wrap: wrap;
+      }
+
+      .hstat {
+        min-width: 50%;
+      }
+
+      .frow {
+        grid-template-columns: 1fr;
+      }
+
+      .gallery-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .gcard:nth-child(1) {
+        grid-column: auto;
+        height: 300px;
+      }
+
+      .footer-top {
+        flex-direction: column;
+      }
+
+      .process-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .footer-bottom {
+        flex-direction: column;
+        text-align: center;
+      }
+    }
+
+    @media(max-width:768px) {
+      .founder-grid {
+        grid-template-columns: 1fr !important;
+        justify-items: center;
+        gap: 40px !important;
+      }
+
+      .founder {
+        padding: 60px 24px !important;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div id="cur"></div>
+  <div id="cur-r"></div>
+
+  <!-- NAV -->
+  <nav id="nav">
+    <a href="#" class="nav-logo">
+      <img src="icon.png" alt="Elite Works Logo">
+      <div class="nav-brand">
+        <span class="nav-brand-name">Elite Works</span>
+        <span class="nav-brand-sub">Glass · Fabrication · Aluminium</span>
+      </div>
+    </a>
+    <ul class="nav-links">
+      <li><a href="#services">Services</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <a href="#contact" class="nav-cta">Free Quote</a>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero" id="home">
+    <div class="hero-bg">
+      <div class="p-grid"></div>
+      <div class="orb orb1"></div>
+      <div class="orb orb2"></div>
+      <div class="orb orb3"></div>
+    </div>
+
+    <div class="hero-left">
+      <div class="hero-pill">
+        <span class="hero-pill-dot"></span>
+        <span class="hero-pill-text">Premium Construction Works · Bengaluru</span>
+      </div>
+      <h1 class="hero-title">
+        Precision Glass<br>
+        <span class="line2">& Fabrication</span><br>
+        <span class="line3">Excellence</span>
+      </h1>
+      <p class="hero-sub">Elite Works delivers flawless glass fitting, expert steel fabrication, and premium aluminium
+        systems — built to impress, built to last.</p>
+      <div class="hero-actions">
+        <a href="#contact" class="btn-blue">Get Free Quote</a>
+        <a href="#services" class="btn-glass">View Services →</a>
+      </div>
+      <div class="hero-stats">
+        <div class="hstat">
+          <div class="hstat-n">500<sup>+</sup></div>
+          <div class="hstat-l">Projects Done</div>
+        </div>
+        <div class="hstat">
+          <div class="hstat-n">10<sup>+</sup></div>
+          <div class="hstat-l">Years Exp.</div>
+        </div>
+        <div class="hstat">
+          <div class="hstat-n">200<sup>+</sup></div>
+          <div class="hstat-l">Happy Clients</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="hero-right">
+      <div class="logo-showcase">
+        <div class="logo-ring ring1">
+          <div class="ring-dot"></div>
+        </div>
+        <div class="logo-ring ring2">
+          <div class="ring-dot"></div>
+        </div>
+        <div class="logo-ring ring3"></div>
+        <div class="logo-glow"></div>
+        <div class="logo-img-wrap">
+          <img src="icon.png" alt="Logo" />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MARQUEE -->
+  <div class="marquee-wrap">
+    <div class="m-track">
+      <div class="m-item">Glass Fitting<span class="m-sep">◆</span></div>
+      <div class="m-item">Fabrication Works<span class="m-sep">◆</span></div>
+      <div class="m-item">Aluminium Works<span class="m-sep">◆</span></div>
+      <div class="m-item">Elite Craftsmanship<span class="m-sep">◆</span></div>
+      <div class="m-item">Premium Quality<span class="m-sep">◆</span></div>
+      <div class="m-item">Glass Fitting<span class="m-sep">◆</span></div>
+      <div class="m-item">Fabrication Works<span class="m-sep">◆</span></div>
+      <div class="m-item">Aluminium Works<span class="m-sep">◆</span></div>
+      <div class="m-item">Elite Craftsmanship<span class="m-sep">◆</span></div>
+      <div class="m-item">Premium Quality<span class="m-sep">◆</span></div>
+    </div>
+  </div>
+
+  <!-- SERVICES -->
+  <section class="services" id="services">
+    <p class="sec-eyebrow rev">What We Do</p>
+    <h2 class="sec-title rev rd1">Our Core <em>Services</em></h2>
+    <div class="svc-grid">
+      <div class="svc-card rev">
+        <div class="svc-n">01</div>
+        <div class="svc-ico">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#4d9de0" stroke-width="1.5">
+            <rect x="3" y="3" width="18" height="18" rx="1" />
+            <line x1="3" y1="9" x2="21" y2="9" />
+            <line x1="3" y1="15" x2="21" y2="15" />
+            <line x1="9" y1="3" x2="9" y2="21" />
+            <line x1="15" y1="3" x2="15" y2="21" />
+          </svg>
+        </div>
+        <h3 class="svc-name">Glass Fitting</h3>
+        <p class="svc-desc">Frameless glass doors, partitions, spider glazing, shower enclosures, glass railings, and
+          structural glazing — installed with absolute precision.</p>
+        <div class="svc-bullets">
+          <span class="svc-bullet">Frameless</span><span class="svc-bullet">Tempered</span><span
+            class="svc-bullet">Spider Glazing</span><span class="svc-bullet">Shower Enclosures</span>
+        </div>
+      </div>
+      <div class="svc-card rev rd1">
+        <div class="svc-n">02</div>
+        <div class="svc-ico">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#4d9de0" stroke-width="1.5">
+            <path d="M12 2L2 7l10 5 10-5-10-5z" />
+            <path d="M2 17l10 5 10-5M2 12l10 5 10-5" />
+          </svg>
+        </div>
+        <h3 class="svc-name">Fabrication Works</h3>
+        <p class="svc-desc">Custom SS and MS fabrication — handrails, gates, canopies, and structural steel works
+          designed and crafted to your exact specifications.</p>
+        <div class="svc-bullets">
+          <span class="svc-bullet">SS Railings</span><span class="svc-bullet">MS Gates</span><span
+            class="svc-bullet">Canopies</span><span class="svc-bullet">Steel Structures</span>
+        </div>
+      </div>
+      <div class="svc-card rev">
+        <div class="svc-n">03</div>
+        <div class="svc-ico">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#4d9de0" stroke-width="1.5">
+            <rect x="2" y="6" width="20" height="12" rx="1" />
+            <path d="M6 6V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v2" />
+            <line x1="2" y1="12" x2="22" y2="12" />
+          </svg>
+        </div>
+        <h3 class="svc-name">Aluminium Works</h3>
+        <p class="svc-desc">Sliding windows, casement doors, curtain walls, cladding, and aluminium partition systems —
+          durable, lightweight, and virtually maintenance-free.</p>
+        <div class="svc-bullets">
+          <span class="svc-bullet">Sliding Windows</span><span class="svc-bullet">Curtain Wall</span><span
+            class="svc-bullet">Cladding</span><span class="svc-bullet">Partitions</span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section class="about" id="about">
+    <div class="about-visual">
+      <img class="about-logo-large rev" src="images/icon.png" alt="Elite Works">
+      <p class="about-quote rev rd1">Every pane of glass we fit is a reflection of the trust our clients place in us.
+      </p>
+      <div class="about-attr rev rd2">Elite Works — Our Promise</div>
+      <div class="stat-row rev rd3">
+        <div class="sbox">
+          <div class="sbox-n">100<span>+</span></div>
+          <div class="sbox-l">Projects</div>
+        </div>
+        <div class="sbox">
+          <div class="sbox-n">5<span>+</span></div>
+          <div class="sbox-l">Years</div>
+        </div>
+        <div class="sbox">
+          <div class="sbox-n">50<span>+</span></div>
+          <div class="sbox-l">Clients</div>
+        </div>
+      </div>
+    </div>
+    <div class="about-content">
+      <p class="sec-eyebrow rev">Why Choose Us</p>
+      <h2 class="sec-title rev rd1" style="margin-bottom:32px;">Built on <em>Trust</em> & Expertise</h2>
+      <div class="feat-list">
+        <div class="feat rev rd1">
+          <div class="feat-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#4d9de0"
+              stroke-width="1.5">
+              <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+              <circle cx="9" cy="7" r="4" />
+              <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
+              <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+            </svg></div>
+          <div>
+            <h4 class="feat-title">Expert Craftsmen</h4>
+            <p class="feat-desc">Trained professionals who bring precision and passion to every single installation.</p>
+          </div>
+        </div>
+        <div class="feat rev rd2">
+          <div class="feat-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#4d9de0"
+              stroke-width="1.5">
+              <polygon
+                points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+            </svg></div>
+          <div>
+            <h4 class="feat-title">Premium Materials</h4>
+            <p class="feat-desc">High-grade glass, aluminium profiles, and steel systems — quality you can see and feel.
+            </p>
+          </div>
+        </div>
+        <div class="feat rev rd3">
+          <div class="feat-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#4d9de0"
+              stroke-width="1.5">
+              <circle cx="12" cy="12" r="10" />
+              <polyline points="12 6 12 12 16 14" />
+            </svg></div>
+          <div>
+            <h4 class="feat-title">On-Time Delivery</h4>
+            <p class="feat-desc">We plan meticulously and execute efficiently — your timeline is our commitment.</p>
+          </div>
+        </div>
+        <div class="feat rev rd4">
+          <div class="feat-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#4d9de0"
+              stroke-width="1.5">
+              <polyline points="9 11 12 14 22 4" />
+              <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11" />
+            </svg></div>
+          <div>
+            <h4 class="feat-title">End-to-End Service</h4>
+            <p class="feat-desc">Design consultation, fabrication, and installation — all handled under one roof.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROCESS -->
+  <section class="process" id="process">
+    <p class="sec-eyebrow rev">How We Work</p>
+    <h2 class="sec-title rev rd1">Our Simple <em>Process</em></h2>
+    <div class="process-grid">
+      <div class="pcard rev">
+        <div class="pcard-line"></div>
+        <div class="pcard-num">1</div>
+        <h4 class="pcard-name">Consultation</h4>
+        <p class="pcard-desc">Discuss your requirements, space, and design preferences with our expert team.</p>
+      </div>
+      <div class="pcard rev rd1">
+        <div class="pcard-line"></div>
+        <div class="pcard-num">2</div>
+        <h4 class="pcard-name">Measurement</h4>
+        <p class="pcard-desc">Precise site survey and custom design drawings prepared for your approval.</p>
+      </div>
+      <div class="pcard rev rd2">
+        <div class="pcard-line"></div>
+        <div class="pcard-num">3</div>
+        <h4 class="pcard-name">Fabrication</h4>
+        <p class="pcard-desc">Materials sourced and crafted to specification at our dedicated workshop.</p>
+      </div>
+      <div class="pcard rev rd3">
+        <div class="pcard-num">4</div>
+        <h4 class="pcard-name">Installation</h4>
+        <p class="pcard-desc">Clean, professional installation by our skilled team — on time, every time.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- FEATURED PROJECTS — Auto-Sliding Carousel -->
+  <section class="gallery" id="projects">
+    <p class="sec-eyebrow rev">Our Work</p>
+    <h2 class="sec-title rev rd1">Featured <em>Projects</em></h2>
+    <div class="carousel-wrap rev rd2">
+      <div class="carousel-track" id="carouselTrack">
+        <div class="carousel-slide"><img src="images/ACP.jpeg" alt="ACP Work"></div>
+        <div class="carousel-slide"><img src="images/ACP1.jpeg" alt="ACP Work"></div>
+        <div class="carousel-slide"><img src="images/Aluminum.jpeg" alt="Aluminium Work"></div>
+        <div class="carousel-slide"><img src="images/SSralings.jpeg" alt="SS Railings"></div>
+        <div class="carousel-slide"><img src="images/glazing.jpeg" alt="Glazing Work"></div>
+        <div class="carousel-slide"><img src="images/shower.jpeg" alt="Shower Enclosure"></div>
+        <div class="carousel-slide"><img src="images/ss.jpeg" alt="SS Work"></div>
+      </div>
+      <button class="carousel-btn carousel-prev" id="carouselPrev" aria-label="Previous slide">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2">
+          <polyline points="15 18 9 12 15 6" />
+        </svg>
+      </button>
+      <button class="carousel-btn carousel-next" id="carouselNext" aria-label="Next slide">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2">
+          <polyline points="9 6 15 12 9 18" />
+        </svg>
+      </button>
+      <div class="carousel-dots" id="carouselDots"></div>
+    </div>
+  </section>
+
+  <!-- FOUNDER -->
+  <!-- <section class="founder" id="founder"
+    style="padding:100px 60px;background:linear-gradient(135deg,#0a0f1a 0%,#111827 50%,#0d1321 100%);position:relative;overflow:hidden;">
+    <div
+      style="position:absolute;top:-120px;right:-120px;width:400px;height:400px;border-radius:50%;background:radial-gradient(circle,rgba(77,157,224,.08) 0%,transparent 70%);pointer-events:none;">
+    </div>
+    <div
+      style="position:absolute;bottom:-80px;left:-80px;width:300px;height:300px;border-radius:50%;background:radial-gradient(circle,rgba(77,157,224,.06) 0%,transparent 70%);pointer-events:none;">
+    </div>
+    <p class="sec-eyebrow rev" style="text-align:center;">The Visionary</p>
+    <h2 class="sec-title rev rd1" style="text-align:center;margin-bottom:60px;">Meet Our <em>Founder</em></h2>
+    <div
+      style="max-width:1000px;margin:0 auto;display:grid;grid-template-columns:320px 1fr;gap:60px;align-items:center;"
+      class="founder-grid">
+      <div class="rev rd2" style="position:relative;">
+        <div
+          style="width:280px;height:340px;border-radius:20px;background:linear-gradient(145deg,rgba(77,157,224,.15),rgba(77,157,224,.05));border:1px solid rgba(77,157,224,.2);display:flex;align-items:center;justify-content:center;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);overflow:hidden;">
+          <img src="founder.png" alt="Founder Photo" style="width: 100%; height: 100%; object-fit: cover;">
+        </div>
+        <div
+          style="position:absolute;bottom:-12px;right:-12px;width:80px;height:80px;border-radius:16px;background:linear-gradient(135deg,#4d9de0,#3178b9);display:flex;align-items:center;justify-content:center;box-shadow:0 8px 32px rgba(77,157,224,.3);">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.5">
+            <polygon
+              points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+          </svg>
+        </div>
+      </div>
+      <div class="rev rd3">
+        <div
+          style="font-size:.7rem;text-transform:uppercase;letter-spacing:.15em;color:#4d9de0;font-family:'Jost',sans-serif;font-weight:500;margin-bottom:12px;">
+          Founder &amp; CEO</div>
+        <h3
+          style="font-family:'Playfair Display',serif;font-size:2rem;color:#f0f4f8;font-weight:600;margin-bottom:8px;line-height:1.2;">
+          Aman Sharma</h3>
+        <div
+          style="width:60px;height:3px;background:linear-gradient(90deg,#4d9de0,transparent);border-radius:2px;margin-bottom:24px;">
+        </div>
+        <p
+          style="font-size:.92rem;color:var(--muted);line-height:1.9;margin-bottom:20px;font-family:'Jost',sans-serif;">
+          With a passion for precision engineering and modern design, Aman Sharma established Elite Works with a
+          clear vision — to deliver world-class glass, fabrication, and aluminium solutions that transform spaces.
+          Starting from a small workshop in Bengaluru, the journey has been defined by uncompromising quality and
+          customer trust.
+        </p>
+        <p
+          style="font-size:.92rem;color:var(--muted);line-height:1.9;margin-bottom:28px;font-family:'Jost',sans-serif;">
+          Today, Elite Works stands as a trusted name in the industry, serving residential and commercial clients with
+          innovative solutions that combine aesthetics with structural excellence.
+        </p>
+        <div
+          style="padding:20px 24px;border-radius:12px;background:rgba(77,157,224,.06);border-left:3px solid #4d9de0;">
+          <p
+            style="font-family:'Playfair Display',serif;font-style:italic;font-size:1rem;color:#c8d6e5;line-height:1.7;">
+            "Every project we take on is a promise — a promise of quality, precision, and excellence that stands the
+            test of time."
+          </p>
+        </div>
+      </div>
+    </div>
+  </section> -->
+
+  <!-- CONTACT -->
+  <section class="contact" id="contact">
+    <div class="cinfo">
+      <p class="sec-eyebrow rev">Get In Touch</p>
+      <h2 class="sec-title rev rd1" style="margin-bottom:28px;">Let's Build <em>Something Great</em></h2>
+      <p class="rev rd2" style="font-size:.9rem;color:var(--muted);line-height:1.8;margin-bottom:40px;">Our team will
+        get back to you within 24 hours with a detailed quote.</p>
+      <div class="cdetail rev rd2">
+        <div class="cicon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#4d9de0"
+            stroke-width="1.5">
+            <path
+              d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.4 2 2 0 0 1 3.59 1.22h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 8.91a16 16 0 0 0 6 6l.77-.77a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 21.73 16.92z" />
+          </svg></div>
+        <div>
+          <div class="clabel">Phone</div>
+          <div class="cval">+91 7411495677</div>
+        </div>
+      </div>
+      <div class="cdetail rev rd3">
+        <div class="cicon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#4d9de0"
+            stroke-width="1.5">
+            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+            <polyline points="22,6 12,13 2,6" />
+          </svg></div>
+        <div>
+          <div class="clabel">Email</div>
+          <div class="cval">eliteglassworks@gmail.com</div>
+        </div>
+      </div>
+      <div class="cdetail rev rd4">
+        <div class="cicon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#4d9de0"
+            stroke-width="1.5">
+            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+            <circle cx="12" cy="10" r="3" />
+          </svg></div>
+        <div>
+          <div class="clabel">Location</div>
+          <div class="cval">Mysuru, Karnataka</div>
+        </div>
+      </div>
+    </div>
+    <div class="cform rev rd2">
+      <div class="form-hed">Send an Enquiry</div>
+      <div class="frow">
+        <div class="fg"><label>First Name</label><input type="text" placeholder="John"></div>
+        <div class="fg"><label>Last Name</label><input type="text" placeholder="Doe"></div>
+      </div>
+      <div class="fg"><label>Phone Number</label><input type="tel" placeholder="+91 XXXXX XXXXX"></div>
+      <div class="fg"><label>Email Address</label><input type="email" placeholder="john@example.com"></div>
+      <div class="fg"><label>Service Required</label><select>
+          <option value="">Select a service</option>
+          <option>Glass Fitting</option>
+          <option>Fabrication Works</option>
+          <option>Aluminium Works</option>
+          <option>Multiple / Other</option>
+        </select></div>
+      <div class="fg"><label>Project Details</label><textarea
+          placeholder="Describe your project — location, size, requirements..."></textarea></div>
+      <button class="fsubmit" onclick="alert('Thank you! We will contact you within 24 hours.')">Submit Enquiry
+        →</button>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-top">
+      <div class="footer-brand">
+        <img src="icon.png" alt="Elite Works Logo">
+        <div class="footer-brand-text">
+          <div class="footer-name">Elite Works</div>
+          <div class="footer-tagline">Glass · Fabrication · Aluminium</div>
+        </div>
+      </div>
+      <div class="fcol">
+        <h5>Services</h5>
+        <ul>
+          <li><a href="#services">Glass Fitting</a></li>
+          <li><a href="#services">Fabrication Works</a></li>
+          <li><a href="#services">Aluminium Works</a></li>
+        </ul>
+      </div>
+      <div class="fcol">
+        <h5>Company</h5>
+        <ul>
+          <li><a href="#about">About Us</a></li>
+          <li><a href="#projects">Projects</a></li>
+          <li><a href="#process">Our Process</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </div>
+      <div class="fcol">
+        <h5>Contact</h5>
+        <ul>
+          <li><a href="#">+91 XXXXX XXXXX</a></li>
+          <li><a href="#">info@eliteworks.in</a></li>
+          <li><a href="#">Bengaluru, KA</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="fcopy">© 2025 Elite Works. All rights reserved.</div>
+      <div class="fmade">Precision · Quality · Trust</div>
+    </div>
+  </footer>
+
+  <script>
+    const cur = document.getElementById('cur'), ring = document.getElementById('cur-r');
+    document.addEventListener('mousemove', e => {
+      cur.style.left = e.clientX + 'px'; cur.style.top = e.clientY + 'px';
+      setTimeout(() => { ring.style.left = e.clientX + 'px'; ring.style.top = e.clientY + 'px'; }, 70);
+    });
+    document.querySelectorAll('a,button').forEach(el => {
+      el.addEventListener('mouseenter', () => { cur.style.width = '16px'; cur.style.height = '16px'; ring.style.width = '48px'; ring.style.height = '48px'; });
+      el.addEventListener('mouseleave', () => { cur.style.width = '8px'; cur.style.height = '8px'; ring.style.width = '32px'; ring.style.height = '32px'; });
+    });
+    const nav = document.getElementById('nav');
+    window.addEventListener('scroll', () => nav.classList.toggle('scrolled', scrollY > 60));
+    const obs = new IntersectionObserver(entries => entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('vis'); }), { threshold: .1 });
+    document.querySelectorAll('.rev').forEach(el => obs.observe(el));
+
+    // Carousel Logic
+    const track = document.getElementById('carouselTrack');
+    if (track) {
+      const slides = Array.from(track.children);
+      const nextBtn = document.getElementById('carouselNext');
+      const prevBtn = document.getElementById('carouselPrev');
+      const dotsNav = document.getElementById('carouselDots');
+
+      // Create dots based on slide count
+      slides.forEach((_, i) => {
+        const dot = document.createElement('button');
+        dot.classList.add('carousel-dot');
+        if (i === 0) dot.classList.add('active');
+        dot.dataset.idx = i;
+        dotsNav.appendChild(dot);
+      });
+      const dots = Array.from(dotsNav.children);
+
+      let curIdx = 0;
+      let autoPlayInterval;
+
+      const upd = (idx) => {
+        if (idx < 0) idx = slides.length - 1;
+        if (idx >= slides.length) idx = 0;
+        track.style.transform = "translateX(-" + (idx * 100) + "%)";
+        dots.forEach(d => d.classList.remove('active'));
+        dots[idx].classList.add('active');
+        curIdx = idx;
+      };
+
+      const startAuto = () => {
+        autoPlayInterval = setInterval(() => upd(curIdx + 1), 4000);
+      };
+
+      const resetAuto = () => {
+        clearInterval(autoPlayInterval);
+        startAuto();
+      };
+
+      nextBtn.addEventListener('click', () => { upd(curIdx + 1); resetAuto(); });
+      prevBtn.addEventListener('click', () => { upd(curIdx - 1); resetAuto(); });
+
+      dotsNav.addEventListener('click', e => {
+        const targetDot = e.target.closest('.carousel-dot');
+        if (!targetDot) return;
+        upd(parseInt(targetDot.dataset.idx, 10));
+        resetAuto();
+      });
+
+      startAuto();
+    }
+  </script>
+</body>
+
+</html>
