@@ -1,16 +1,76 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="dark">
+<html lang="en" class="dark" data-theme="dark">
 
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="icon" href="images/icon.png">
   <title>Elite Works — Glass · Fabrication · Aluminium</title>
+
+  <!-- AOS — Animate On Scroll -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" rel="stylesheet" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+
+  <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link
-    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=DM+Sans:wght@300;400;500;600&display=swap"
+    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600&family=Outfit:wght@300;400;500;600&display=swap"
     rel="stylesheet">
+
   <style>
+    /* ══════════════════════════════════════════
+       DESIGN TOKENS — ELITE GLASS EDITION
+       Concept: Looking through frosted
+       architectural glass at night light.
+    ══════════════════════════════════════════ */
+    :root {
+      --display: 'Cormorant Garamond', serif;
+      --body: 'Outfit', sans-serif;
+      --pad: clamp(36px, 5vw, 80px);
+      --radius: 16px;
+      --sky: #7dd3fc;
+      --blue: #1a6fd4;
+      --blue2: #2e86de;
+      --glow: rgba(125, 211, 252, 0.18);
+      --trans: 0.35s ease;
+    }
+
+    /* DARK */
+    .dark {
+      --bg: #050810;
+      --bg2: #080d18;
+      --bg3: #0c1220;
+      --text: #e8f0f8;
+      --muted: #7a95b0;
+      --gb: rgba(10, 18, 42, 0.55);
+      /* glass bg */
+      --gb2: rgba(14, 24, 52, 0.38);
+      /* glass bg lighter */
+      --gbc: rgba(125, 211, 252, 0.16);
+      /* glass border */
+      --gbc2: rgba(125, 211, 252, 0.07);
+      /* glass border faint */
+      --nav: rgba(5, 8, 16, 0.88);
+      --shadow: 0 8px 32px rgba(0, 0, 0, 0.45), 0 0 0 1px rgba(125, 211, 252, 0.09);
+      --hshadow: 0 20px 60px rgba(26, 111, 212, 0.22), 0 0 0 1px rgba(125, 211, 252, 0.22), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+    }
+
+    /* LIGHT */
+    .light {
+      --bg: #e4eff9;
+      --bg2: #d8eaf5;
+      --bg3: #ffffff;
+      --text: #091524;
+      --muted: #4a6580;
+      --gb: rgba(255, 255, 255, 0.58);
+      --gb2: rgba(255, 255, 255, 0.36);
+      --gbc: rgba(26, 111, 212, 0.2);
+      --gbc2: rgba(26, 111, 212, 0.09);
+      --nav: rgba(228, 239, 249, 0.9);
+      --shadow: 0 8px 32px rgba(26, 111, 212, 0.1), 0 0 0 1px rgba(26, 111, 212, 0.1);
+      --hshadow: 0 20px 60px rgba(26, 111, 212, 0.18), 0 0 0 1px rgba(26, 111, 212, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.6);
+    }
+
     *,
     *::before,
     *::after {
@@ -19,141 +79,269 @@
       padding: 0;
     }
 
-    /* ══════════════════════ THEME TOKENS ══════════════════════ */
-    :root {
-      --pad: clamp(40px, 6vw, 90px);
-      --blue: #1a6fd4;
-      --blue-l: #4d9de0;
-      --cyan: #7dd3fc;
-      --blue-glow: rgba(26, 111, 212, 0.28);
-      --radius: 10px;
-      --trans: 0.35s ease;
-    }
-
-    [data-theme="dark"] {
-      --bg: #07090d;
-      --bg2: #0c1018;
-      --bg3: #101620;
-      --white: #edf2f7;
-      --muted: #7b8fa5;
-      --border: rgba(77, 157, 224, 0.14);
-      --border2: rgba(77, 157, 224, 0.07);
-      --card: #0c1018;
-      --nav-bg: rgba(7, 9, 13, 0.92);
-      --shadow: 0 2px 24px rgba(0, 0, 0, 0.45);
-    }
-
-    [data-theme="light"] {
-      --bg: #f4f7fb;
-      --bg2: #eaf0f8;
-      --bg3: #ffffff;
-      --white: #0f1923;
-      --muted: #5a6d82;
-      --border: rgba(26, 111, 212, 0.16);
-      --border2: rgba(26, 111, 212, 0.09);
-      --card: #ffffff;
-      --nav-bg: rgba(244, 247, 251, 0.94);
-      --shadow: 0 2px 24px rgba(0, 0, 0, 0.09);
-    }
-
     html {
       scroll-behavior: smooth;
     }
 
     body {
+      font-family: var(--body);
       background: var(--bg);
-      color: var(--white);
-      font-family: 'DM Sans', sans-serif;
-      font-weight: 300;
+      color: var(--text);
       overflow-x: hidden;
+      font-weight: 300;
       transition: background var(--trans), color var(--trans);
     }
 
-    /* ══════════════════════ CURSOR ══════════════════════ */
+    a,
+    button {
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    /* ── GLASS UTILITIES ── */
+    .glass {
+      background: var(--gb);
+      backdrop-filter: blur(22px) saturate(180%);
+      -webkit-backdrop-filter: blur(22px) saturate(180%);
+      border: 1px solid var(--gbc);
+      box-shadow: var(--shadow);
+    }
+
+    .glass-sm {
+      background: var(--gb2);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid var(--gbc2);
+    }
+
+    .glass-card {
+      background: var(--gb);
+      backdrop-filter: blur(24px) saturate(200%);
+      -webkit-backdrop-filter: blur(24px) saturate(200%);
+      border: 1px solid var(--gbc);
+      box-shadow: var(--shadow);
+      transition: transform .3s ease, box-shadow .3s ease, border-color .3s ease;
+    }
+
+    .glass-card:hover {
+      transform: translateY(-6px);
+      border-color: rgba(125, 211, 252, 0.38);
+      box-shadow: var(--hshadow);
+    }
+
+    /* ── CURSOR ── */
     #cur {
       width: 7px;
       height: 7px;
-      background: var(--blue-l);
+      background: var(--sky);
       border-radius: 50%;
       position: fixed;
       pointer-events: none;
       z-index: 9999;
       transform: translate(-50%, -50%);
-      transition: width .25s, height .25s;
+      transition: width .2s, height .2s;
     }
 
-    #cur-r {
-      width: 28px;
-      height: 28px;
-      border: 1px solid rgba(77, 157, 224, 0.45);
+    #curR {
+      width: 26px;
+      height: 26px;
+      border: 1px solid rgba(125, 211, 252, 0.38);
       border-radius: 50%;
       position: fixed;
       pointer-events: none;
       z-index: 9998;
       transform: translate(-50%, -50%);
-      transition: left .45s cubic-bezier(.25, .46, .45, .94), top .45s cubic-bezier(.25, .46, .45, .94), width .25s, height .25s;
+      transition: left .42s cubic-bezier(.25, .46, .45, .94), top .42s cubic-bezier(.25, .46, .45, .94), width .2s, height .2s;
     }
 
-    /* ══════════════════════ NAV ══════════════════════ */
-    nav {
+    /* ── BACKGROUND SCENE ── */
+    .bg-scene {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      overflow: hidden;
+    }
+
+    .bg-grid {
+      position: absolute;
+      inset: 0;
+      background-image: linear-gradient(rgba(125, 211, 252, 0.028) 1px, transparent 1px), linear-gradient(90deg, rgba(125, 211, 252, 0.028) 1px, transparent 1px);
+      background-size: 58px 58px;
+    }
+
+    .bg-orb {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(90px);
+      animation: orbDrift 16s ease-in-out infinite;
+    }
+
+    .ob1 {
+      width: 580px;
+      height: 580px;
+      background: rgba(26, 111, 212, 0.1);
+      top: -160px;
+      left: -120px;
+    }
+
+    .ob2 {
+      width: 380px;
+      height: 380px;
+      background: rgba(125, 211, 252, 0.07);
+      bottom: -60px;
+      right: -50px;
+      animation-delay: 6s;
+      animation-duration: 20s;
+    }
+
+    .ob3 {
+      width: 280px;
+      height: 280px;
+      background: rgba(46, 134, 222, 0.07);
+      top: 42%;
+      left: 58%;
+      animation-delay: 10s;
+      animation-duration: 13s;
+    }
+
+    .light .ob1 {
+      background: rgba(26, 111, 212, 0.07);
+    }
+
+    .light .ob2 {
+      background: rgba(125, 211, 252, 0.09);
+    }
+
+    .light .ob3 {
+      background: rgba(46, 134, 222, 0.05);
+    }
+
+    @keyframes orbDrift {
+
+      0%,
+      100% {
+        transform: translate(0, 0) scale(1)
+      }
+
+      33% {
+        transform: translate(38px, -44px) scale(1.07)
+      }
+
+      66% {
+        transform: translate(-28px, 28px) scale(0.96)
+      }
+    }
+
+    /* Floating glass panes in bg */
+    .bg-pane {
+      position: absolute;
+      border-radius: 14px;
+      border: 1px solid rgba(125, 211, 252, 0.055);
+      background: rgba(125, 211, 252, 0.012);
+      animation: paneFloat 22s ease-in-out infinite;
+    }
+
+    .bp1 {
+      width: 190px;
+      height: 270px;
+      top: 9%;
+      right: 7%;
+      transform: rotate(14deg);
+      animation-delay: 0s;
+    }
+
+    .bp2 {
+      width: 130px;
+      height: 190px;
+      top: 52%;
+      right: 13%;
+      transform: rotate(-7deg);
+      animation-delay: 7s;
+      animation-duration: 18s;
+    }
+
+    .bp3 {
+      width: 95px;
+      height: 140px;
+      top: 22%;
+      right: 21%;
+      transform: rotate(5deg);
+      animation-delay: 3.5s;
+    }
+
+    @keyframes paneFloat {
+
+      0%,
+      100% {
+        transform-origin: center center;
+        transform: rotate(var(--r, 14deg)) translateY(0)
+      }
+
+      50% {
+        transform: rotate(var(--r, 14deg)) translateY(-18px)
+      }
+    }
+
+    /* ── NAV ── */
+    #nav {
       position: fixed;
       top: 0;
       left: 0;
       right: 0;
-      z-index: 200;
+      z-index: 500;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 14px clamp(18px, 4vw, 60px);
-      transition: background var(--trans), border-color var(--trans), box-shadow var(--trans);
+      padding: 13px clamp(16px, 4vw, 56px);
       border-bottom: 1px solid transparent;
+      transition: background .4s, border-color .4s, box-shadow .4s;
     }
 
-    nav.scrolled {
-      background: var(--nav-bg);
-      backdrop-filter: blur(18px);
-      border-color: var(--border);
-      box-shadow: var(--shadow);
+    #nav.scrolled {
+      background: var(--nav);
+      backdrop-filter: blur(24px) saturate(180%);
+      -webkit-backdrop-filter: blur(24px) saturate(180%);
+      border-color: var(--gbc);
+      box-shadow: 0 4px 28px rgba(0, 0, 0, 0.12);
     }
 
     .nav-logo {
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 11px;
       text-decoration: none;
     }
 
     .nav-logo img {
-      height: 40px;
-      width: auto;
-      filter: drop-shadow(0 0 10px rgba(77, 157, 224, 0.45));
+      height: 38px;
+      filter: drop-shadow(0 0 10px rgba(125, 211, 252, 0.5));
     }
 
-    .nav-brand-name {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 1.12rem;
+    .nav-bn {
+      font-family: var(--display);
+      font-size: 1.08rem;
       font-weight: 700;
-      letter-spacing: .05em;
-      color: var(--white);
-      line-height: 1;
+      letter-spacing: .04em;
+      color: var(--text);
     }
 
-    .nav-brand-sub {
-      font-size: .58rem;
+    .nav-bs {
+      font-size: .54rem;
       letter-spacing: .17em;
       text-transform: uppercase;
-      color: var(--blue-l);
-      margin-top: 2px;
+      color: var(--sky);
+      margin-top: 1px;
     }
 
-    .nav-links {
+    .nav-links-list {
       display: flex;
-      gap: 28px;
+      gap: 26px;
       list-style: none;
+      align-items: center;
     }
 
-    .nav-links a {
-      font-size: .7rem;
+    .nl {
+      font-size: .67rem;
       font-weight: 500;
       letter-spacing: .1em;
       text-transform: uppercase;
@@ -161,253 +349,178 @@
       text-decoration: none;
       transition: color .25s;
       position: relative;
+      padding-bottom: 2px;
     }
 
-    .nav-links a::after {
+    .nl::after {
       content: '';
       position: absolute;
-      bottom: -3px;
+      bottom: 0;
       left: 0;
       width: 0;
       height: 1px;
-      background: var(--blue-l);
+      background: var(--sky);
       transition: width .28s;
     }
 
-    .nav-links a:hover,
-    .nav-links a.active {
-      color: var(--white);
+    .nl:hover,
+    .nl.active {
+      color: var(--text);
     }
 
-    .nav-links a:hover::after,
-    .nav-links a.active::after {
+    .nl:hover::after,
+    .nl.active::after {
       width: 100%;
     }
 
-    .nav-right {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-
-    /* Theme toggle */
-    .theme-toggle {
-      width: 36px;
-      height: 36px;
-      border-radius: 50%;
-      background: var(--bg3);
-      border: 1px solid var(--border);
-      cursor: pointer;
-      position: relative;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
-      transition: background var(--trans), border-color var(--trans), transform .2s;
-      -webkit-tap-highlight-color: transparent;
-    }
-
-    .theme-toggle:hover {
-      border-color: var(--blue-l);
-      transform: scale(1.08);
-    }
-
-    .theme-toggle .icon-moon,
-    .theme-toggle .icon-sun {
-      position: absolute;
-      transition: opacity .3s, transform .3s;
-    }
-
-    /* Dark mode: show moon */
-    [data-theme="dark"] .icon-moon {
-      opacity: 1;
-      transform: rotate(0deg);
-    }
-
-    [data-theme="dark"] .icon-sun {
-      opacity: 0;
-      transform: rotate(90deg) scale(.6);
-    }
-
-    /* Light mode: show sun */
-    [data-theme="light"] .icon-sun {
-      opacity: 1;
-      transform: rotate(0deg);
-    }
-
-    [data-theme="light"] .icon-moon {
-      opacity: 0;
-      transform: rotate(-90deg) scale(.6);
-    }
-
-    .nav-cta {
+    .btn-q {
       padding: 8px 20px;
-      background: linear-gradient(135deg, var(--blue), var(--blue-l));
+      background: linear-gradient(135deg, var(--blue), var(--blue2));
       color: #fff;
-      font-size: .68rem;
+      font-size: .67rem;
       font-weight: 600;
       letter-spacing: .1em;
       text-transform: uppercase;
       text-decoration: none;
-      border-radius: 6px;
-      transition: opacity .25s, transform .2s;
-      box-shadow: 0 0 16px var(--blue-glow);
+      border-radius: 7px;
+      box-shadow: 0 0 18px rgba(26, 111, 212, 0.32);
+      transition: opacity .25s, transform .2s, box-shadow .28s;
     }
 
-    .nav-cta:hover {
-      opacity: .82;
+    .btn-q:hover {
+      opacity: .83;
       transform: translateY(-1px);
+      box-shadow: 0 4px 24px rgba(26, 111, 212, 0.5);
     }
 
-    /* Hamburger */
+    /* Theme toggle */
+    .th-btn {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: none;
+      position: relative;
+      transition: transform .25s, border-color .25s;
+    }
+
+    .th-btn:hover {
+      transform: scale(1.1);
+    }
+
+    .ico-moon,
+    .ico-sun {
+      position: absolute;
+      transition: opacity .3s, transform .35s;
+    }
+
+    .dark .ico-moon {
+      opacity: 1;
+      transform: rotate(0);
+    }
+
+    .dark .ico-sun {
+      opacity: 0;
+      transform: rotate(90deg) scale(.5);
+    }
+
+    .light .ico-sun {
+      opacity: 1;
+      transform: rotate(0);
+    }
+
+    .light .ico-moon {
+      opacity: 0;
+      transform: rotate(-90deg) scale(.5);
+    }
+
+    /* Hamburger / mobile */
     .hamburger {
       display: none;
       flex-direction: column;
       gap: 5px;
       cursor: pointer;
-      padding: 4px;
+      padding: 5px;
     }
 
     .hamburger span {
       display: block;
       width: 22px;
       height: 1.5px;
-      background: var(--white);
+      background: var(--text);
       border-radius: 2px;
       transition: transform .3s, opacity .3s;
     }
 
-    /* Mobile drawer */
-    .mobile-nav {
+    .m-drawer {
       display: none;
       position: fixed;
       inset: 0;
-      top: 68px;
-      background: var(--bg2);
-      z-index: 190;
+      top: 65px;
+      z-index: 490;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      gap: 32px;
-      transform: translateY(-8px);
+      gap: 34px;
       opacity: 0;
       pointer-events: none;
-      transition: opacity .3s, transform .3s;
+      transition: opacity .3s;
     }
 
-    .mobile-nav.open {
+    .dark .m-drawer {
+      background: rgba(5, 8, 16, 0.94);
+      backdrop-filter: blur(28px);
+    }
+
+    .light .m-drawer {
+      background: rgba(228, 239, 249, 0.95);
+      backdrop-filter: blur(28px);
+    }
+
+    .m-drawer.open {
       opacity: 1;
-      transform: none;
       pointer-events: all;
     }
 
-    .mobile-nav a {
-      font-size: 1.4rem;
-      font-family: 'Cormorant Garamond', serif;
-      color: var(--white);
+    .m-drawer a {
+      font-family: var(--display);
+      font-size: 1.55rem;
+      color: var(--text);
       text-decoration: none;
-      letter-spacing: .04em;
     }
 
-    /* ══════════════════════ HERO ══════════════════════ */
+    /* ── HERO ── */
     .hero {
-      min-height: 100vh;
+      min-height: 100svh;
       display: grid;
-      grid-template-columns: 1.1fr 1fr;
+      grid-template-columns: 1fr 1fr;
+      align-items: center;
+      padding-top: 68px;
       position: relative;
-      overflow: hidden;
-      padding-top: 70px;
+      z-index: 1;
     }
 
-    .hero-bg {
-      position: absolute;
-      inset: 0;
-      overflow: hidden;
+    .hero-l {
+      padding: 44px clamp(16px, 4vw, 56px);
     }
 
-    .hero-bg::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: radial-gradient(ellipse 70% 55% at 18% 50%, rgba(26, 111, 212, .1) 0%, transparent 60%),
-        radial-gradient(ellipse 45% 45% at 80% 80%, rgba(77, 157, 224, .05) 0%, transparent 60%);
-    }
-
-    [data-theme="light"] .hero-bg::before {
-      background: radial-gradient(ellipse 70% 55% at 18% 50%, rgba(26, 111, 212, .07) 0%, transparent 60%),
-        radial-gradient(ellipse 45% 45% at 80% 80%, rgba(77, 157, 224, .04) 0%, transparent 60%);
-    }
-
-    .p-grid {
-      position: absolute;
-      inset: 0;
-      background-image: linear-gradient(var(--border2) 1px, transparent 1px), linear-gradient(90deg, var(--border2) 1px, transparent 1px);
-      background-size: 56px 56px;
-    }
-
-    .orb {
-      position: absolute;
-      border-radius: 50%;
-      filter: blur(70px);
-      animation: orbFloat 10s ease-in-out infinite;
-    }
-
-    .orb1 {
-      width: 420px;
-      height: 420px;
-      background: rgba(26, 111, 212, .07);
-      top: -80px;
-      left: -80px;
-    }
-
-    .orb2 {
-      width: 260px;
-      height: 260px;
-      background: rgba(77, 157, 224, .05);
-      bottom: 0;
-      right: 20%;
-      animation-delay: 4s;
-    }
-
-    @keyframes orbFloat {
-
-      0%,
-      100% {
-        transform: translate(0, 0)
-      }
-
-      50% {
-        transform: translate(24px, -32px)
-      }
-    }
-
-    .hero-left {
-      position: relative;
-      z-index: 2;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      padding: 48px clamp(18px, 4vw, 60px);
-    }
-
-    .hero-pill {
+    .pill {
       display: inline-flex;
       align-items: center;
-      gap: 9px;
-      padding: 5px 16px 5px 7px;
-      background: rgba(26, 111, 212, .1);
-      border: 1px solid rgba(77, 157, 224, .22);
+      gap: 8px;
+      padding: 5px 16px 5px 8px;
       border-radius: 100px;
-      margin-bottom: 24px;
+      margin-bottom: 20px;
       width: fit-content;
-      opacity: 0;
-      animation: up .6s .1s forwards;
     }
 
-    .hero-pill-dot {
+    .pill-dot {
       width: 5px;
       height: 5px;
-      background: var(--blue-l);
+      background: var(--sky);
       border-radius: 50%;
       animation: blink 2s infinite;
     }
@@ -420,234 +533,229 @@
       }
 
       50% {
-        opacity: .3
+        opacity: .2
       }
     }
 
-    .hero-pill-text {
-      font-size: .64rem;
+    .pill-txt {
+      font-size: .6rem;
       font-weight: 600;
-      letter-spacing: .15em;
+      letter-spacing: .16em;
       text-transform: uppercase;
-      color: var(--blue-l);
+      color: var(--sky);
     }
 
-    .hero-title {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: clamp(2.4rem, 4.8vw, 4.4rem);
+    .h-title {
+      font-family: var(--display);
+      font-size: clamp(2.5rem, 4.8vw, 4.8rem);
       font-weight: 700;
-      line-height: 1.07;
+      line-height: 1.06;
       letter-spacing: -.01em;
-      opacity: 0;
-      animation: up .8s .22s forwards;
     }
 
-    .hero-title .line2 {
+    .h-italic {
       font-style: italic;
-      font-weight: 400;
-      color: var(--blue-l);
+      font-weight: 300;
+      color: var(--sky);
     }
 
-    .hero-title .line3 {
+    .h-bar {
       display: flex;
       align-items: center;
-      gap: 14px;
+      gap: 12px;
     }
 
-    .hero-title .line3::after {
+    .h-bar::after {
       content: '';
       flex: 1;
       height: 2px;
       background: linear-gradient(90deg, var(--blue), transparent);
-      max-width: 100px;
+      max-width: 95px;
     }
 
-    .hero-sub {
-      margin-top: 18px;
-      font-size: clamp(.82rem, 1.1vw, .9rem);
+    .h-sub {
+      margin-top: 15px;
+      font-size: clamp(.8rem, .95vw, .9rem);
       color: var(--muted);
-      line-height: 1.85;
-      max-width: 400px;
-      opacity: 0;
-      animation: up .8s .38s forwards;
+      line-height: 1.9;
+      max-width: 390px;
     }
 
-    .hero-actions {
-      margin-top: 32px;
+    .h-ctas {
+      margin-top: 26px;
       display: flex;
-      gap: 12px;
-      align-items: center;
-      opacity: 0;
-      animation: up .8s .52s forwards;
+      gap: 11px;
       flex-wrap: wrap;
+      align-items: center;
     }
 
-    .btn-blue {
-      padding: 11px 28px;
-      background: linear-gradient(135deg, var(--blue), #2580e8);
+    .btn-p {
+      padding: 12px 26px;
+      background: linear-gradient(135deg, var(--blue), var(--blue2));
       color: #fff;
-      font-size: .74rem;
+      font-size: .73rem;
       font-weight: 600;
       letter-spacing: .09em;
       text-transform: uppercase;
       text-decoration: none;
-      border-radius: 6px;
-      box-shadow: 0 3px 18px var(--blue-glow);
+      border-radius: 8px;
+      box-shadow: 0 4px 18px rgba(26, 111, 212, 0.36);
       transition: transform .2s, box-shadow .28s;
     }
 
-    .btn-blue:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 6px 28px rgba(26, 111, 212, .48);
+    .btn-p:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 28px rgba(26, 111, 212, 0.5);
     }
 
-    .btn-glass {
-      padding: 11px 28px;
-      border: 1px solid var(--border);
+    .btn-o {
+      padding: 12px 26px;
       color: var(--muted);
-      font-size: .74rem;
+      font-size: .73rem;
       font-weight: 500;
       letter-spacing: .09em;
       text-transform: uppercase;
       text-decoration: none;
-      border-radius: 6px;
-      transition: border-color .28s, color .28s;
-    }
-
-    .btn-glass:hover {
-      border-color: var(--blue-l);
-      color: var(--white);
-    }
-
-    .hero-stats {
-      display: flex;
-      gap: 0;
-      margin-top: 40px;
-      opacity: 0;
-      animation: up .8s .64s forwards;
-      border: 1px solid var(--border);
       border-radius: 8px;
+      transition: color .25s;
+    }
+
+    .btn-o:hover {
+      color: var(--text);
+    }
+
+    .stat-strip {
+      margin-top: 34px;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      border-radius: 10px;
       overflow: hidden;
-      background: rgba(255, 255, 255, .02);
-      backdrop-filter: blur(8px);
-      max-width: 420px;
+      max-width: 390px;
     }
 
-    .hstat {
-      flex: 1;
-      padding: 16px 18px;
+    .stat-c {
+      padding: 14px;
       text-align: center;
-      border-right: 1px solid var(--border);
+      border-right: 1px solid var(--gbc);
     }
 
-    .hstat:last-child {
+    .stat-c:last-child {
       border-right: none;
     }
 
-    .hstat-n {
-      font-family: 'Cormorant Garamond', serif;
+    .stat-n {
+      font-family: var(--display);
       font-size: 1.8rem;
       font-weight: 700;
-      color: var(--white);
+      color: var(--text);
       line-height: 1;
     }
 
-    .hstat-n sup {
-      font-size: .9rem;
-      color: var(--blue-l);
+    .stat-n sup {
+      font-size: .85rem;
+      color: var(--sky);
     }
 
-    .hstat-l {
-      font-size: .6rem;
-      letter-spacing: .12em;
+    .stat-l {
+      font-size: .55rem;
+      letter-spacing: .13em;
       text-transform: uppercase;
       color: var(--muted);
-      margin-top: 3px;
+      margin-top: 2px;
     }
 
-    .hero-right {
-      position: relative;
-      z-index: 2;
+    /* Hero right — stacked glass panes */
+    .hero-r {
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 48px 32px;
+      padding: 44px 30px;
+      position: relative;
+      z-index: 1;
     }
 
-    .logo-showcase {
+    .showcase {
       position: relative;
+      width: 300px;
+      height: 360px;
+    }
+
+    .sp {
+      position: absolute;
+      border-radius: 18px;
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
+
+    .sp-a {
+      width: 210px;
+      height: 290px;
+      top: 38px;
+      left: 58px;
+      transform: rotate(9deg);
+      background: linear-gradient(135deg, rgba(125, 211, 252, 0.1), rgba(26, 111, 212, 0.05));
+      border: 1px solid rgba(125, 211, 252, 0.18);
+      box-shadow: 0 8px 32px rgba(26, 111, 212, 0.12);
+      animation: spf1 7s ease-in-out infinite;
+    }
+
+    .sp-b {
+      width: 230px;
+      height: 310px;
+      top: 18px;
+      left: 36px;
+      transform: rotate(4deg);
+      background: linear-gradient(135deg, rgba(125, 211, 252, 0.12), rgba(26, 111, 212, 0.06));
+      border: 1px solid rgba(125, 211, 252, 0.2);
+      box-shadow: 0 8px 36px rgba(26, 111, 212, 0.14), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+      animation: spf2 9s ease-in-out infinite;
+    }
+
+    .sp-c {
+      width: 250px;
+      height: 330px;
+      top: 0;
+      left: 14px;
+      background: linear-gradient(135deg, rgba(125, 211, 252, 0.14), rgba(26, 111, 212, 0.08));
+      border: 1px solid rgba(125, 211, 252, 0.25);
+      box-shadow: 0 10px 40px rgba(26, 111, 212, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.12);
       display: flex;
       align-items: center;
       justify-content: center;
+      animation: spf3 6s ease-in-out infinite;
     }
 
-    .logo-ring {
-      position: absolute;
-      border-radius: 50%;
-      animation: spin linear infinite;
+    .sp-c img {
+      width: 160px;
+      filter: drop-shadow(0 0 28px rgba(125, 211, 252, 0.55));
+      animation: logof 5s ease-in-out infinite;
     }
 
-    .ring1 {
-      width: 340px;
-      height: 340px;
-      border: 1px solid rgba(77, 157, 224, .13);
-      animation-duration: 30s;
-    }
+    @keyframes spf1 {
 
-    .ring2 {
-      width: 260px;
-      height: 260px;
-      border: 1px solid rgba(77, 157, 224, .09);
-      animation-duration: 20s;
-      animation-direction: reverse;
-    }
-
-    .ring3 {
-      width: 190px;
-      height: 190px;
-      border: 1px dashed rgba(77, 157, 224, .1);
-      animation-duration: 40s;
-    }
-
-    @keyframes spin {
-      from {
-        transform: rotate(0)
+      0%,
+      100% {
+        transform: rotate(9deg) translateY(0)
       }
 
-      to {
-        transform: rotate(360deg)
+      50% {
+        transform: rotate(9deg) translateY(-10px)
       }
     }
 
-    .ring-dot {
-      position: absolute;
-      width: 5px;
-      height: 5px;
-      background: var(--blue-l);
-      border-radius: 50%;
-      box-shadow: 0 0 8px var(--blue-l);
+    @keyframes spf2 {
+
+      0%,
+      100% {
+        transform: rotate(4deg) translateY(0)
+      }
+
+      50% {
+        transform: rotate(4deg) translateY(-14px)
+      }
     }
 
-    .ring1 .ring-dot {
-      top: -2.5px;
-      left: 50%;
-      transform: translateX(-50%);
-    }
-
-    .ring2 .ring-dot {
-      bottom: -2.5px;
-      left: 50%;
-      transform: translateX(-50%);
-    }
-
-    .logo-img-wrap img {
-      width: 220px;
-      height: auto;
-      filter: drop-shadow(0 0 32px rgba(77, 157, 224, .55)) drop-shadow(0 16px 32px rgba(0, 0, 0, .45));
-      animation: logoFloat 5s ease-in-out infinite;
-    }
-
-    @keyframes logoFloat {
+    @keyframes spf3 {
 
       0%,
       100% {
@@ -655,52 +763,89 @@
       }
 
       50% {
-        transform: translateY(-14px)
+        transform: translateY(-11px)
       }
     }
 
-    .logo-glow {
+    @keyframes logof {
+
+      0%,
+      100% {
+        transform: translateY(0)
+      }
+
+      50% {
+        transform: translateY(-9px)
+      }
+    }
+
+    .ring {
       position: absolute;
-      width: 180px;
-      height: 180px;
-      background: radial-gradient(circle, rgba(77, 157, 224, .18) 0%, transparent 70%);
       border-radius: 50%;
+      animation: spin linear infinite;
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
     }
 
-    @keyframes up {
+    .rg1 {
+      width: 340px;
+      height: 340px;
+      border: 1px solid rgba(125, 211, 252, 0.09);
+      animation-duration: 34s;
+    }
+
+    .rg2 {
+      width: 268px;
+      height: 268px;
+      border: 1px dashed rgba(125, 211, 252, 0.07);
+      animation-duration: 22s;
+      animation-direction: reverse;
+    }
+
+    @keyframes spin {
       from {
-        opacity: 0;
-        transform: translateY(22px)
+        transform: translate(-50%, -50%) rotate(0)
       }
 
       to {
-        opacity: 1;
-        transform: translateY(0)
+        transform: translate(-50%, -50%) rotate(360deg)
       }
     }
 
-    /* ══════════════════════ MARQUEE ══════════════════════ */
-    .marquee-wrap {
-      border-top: 1px solid var(--border);
-      border-bottom: 1px solid var(--border);
-      padding: 12px 0;
+    .rdot {
+      position: absolute;
+      width: 5px;
+      height: 5px;
+      background: var(--sky);
+      border-radius: 50%;
+      box-shadow: 0 0 7px var(--sky);
+      top: -2.5px;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    /* ── MARQUEE ── */
+    .mq-wrap {
+      border-top: 1px solid var(--gbc);
+      border-bottom: 1px solid var(--gbc);
+      padding: 10px 0;
       background: var(--bg2);
       overflow: hidden;
+      position: relative;
+      z-index: 1;
     }
 
-    .m-track {
+    .mq-track {
       display: flex;
       width: max-content;
-      animation: mq 22s linear infinite;
+      animation: mq 24s linear infinite;
     }
 
-    .m-item {
+    .mq-item {
       display: flex;
       align-items: center;
-      font-size: .66rem;
+      font-size: .6rem;
       font-weight: 600;
       letter-spacing: .18em;
       text-transform: uppercase;
@@ -708,10 +853,9 @@
       white-space: nowrap;
     }
 
-    .m-sep {
-      color: var(--blue-l);
-      padding: 0 20px;
-      font-size: .9rem;
+    .mq-sep {
+      color: var(--sky);
+      padding: 0 18px;
     }
 
     @keyframes mq {
@@ -724,294 +868,257 @@
       }
     }
 
-    /* ══════════════════════ SECTION COMMON ══════════════════════ */
-    .sec-eyebrow {
-      font-size: .62rem;
+    /* ── SECTION SHARED ── */
+    section {
+      position: relative;
+      z-index: 1;
+    }
+
+    .eyebrow {
+      font-size: .58rem;
       font-weight: 600;
       letter-spacing: .2em;
       text-transform: uppercase;
-      color: var(--blue-l);
-      margin-bottom: 10px;
+      color: var(--sky);
       display: flex;
       align-items: center;
       gap: 8px;
+      margin-bottom: 8px;
     }
 
-    .sec-eyebrow::before {
+    .eyebrow::before {
       content: '';
-      width: 20px;
+      width: 18px;
       height: 1px;
-      background: var(--blue-l);
+      background: var(--sky);
     }
 
-    .sec-title {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: clamp(1.9rem, 3.2vw, 3.2rem);
+    .s-head {
+      font-family: var(--display);
+      font-size: clamp(1.8rem, 2.9vw, 3rem);
       font-weight: 700;
       line-height: 1.1;
-      margin-bottom: 40px;
+      margin-bottom: 34px;
     }
 
-    .sec-title em {
+    .s-head em {
       font-style: italic;
-      color: var(--blue-l);
+      font-weight: 300;
+      color: var(--sky);
     }
 
-    /* ══════════════════════ SERVICES ══════════════════════ */
+    /* ── SERVICES ── */
     .services {
-      padding: var(--pad) clamp(18px, 4vw, 60px);
+      padding: var(--pad) clamp(16px, 4vw, 56px);
       background: var(--bg);
     }
 
     .svc-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 2px;
-      background: var(--border2);
+      gap: 15px;
     }
 
     .svc-card {
-      background: var(--card);
-      padding: 36px 30px;
+      padding: 30px 24px;
+      border-radius: var(--radius);
+      cursor: default;
       position: relative;
       overflow: hidden;
-      transition: background var(--trans);
-      cursor: default;
     }
 
     .svc-card::before {
       content: '';
       position: absolute;
-      inset: 0;
-      background: linear-gradient(135deg, rgba(26, 111, 212, .07) 0%, transparent 60%);
-      opacity: 0;
-      transition: opacity .35s;
-    }
-
-    .svc-card::after {
-      content: '';
-      position: absolute;
-      bottom: 0;
+      top: 0;
       left: 0;
-      width: 0;
+      right: 0;
       height: 2px;
-      background: linear-gradient(90deg, var(--blue), var(--cyan));
-      transition: width .45s;
+      background: linear-gradient(90deg, transparent, var(--sky), transparent);
+      opacity: 0;
+      transition: opacity .4s;
     }
 
     .svc-card:hover::before {
       opacity: 1;
     }
 
-    .svc-card:hover {
-      background: var(--bg3);
-    }
-
-    .svc-card:hover::after {
-      width: 100%;
-    }
-
     .svc-n {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 4.2rem;
-      color: var(--border2);
+      font-family: var(--display);
+      font-size: 3.8rem;
+      font-weight: 700;
+      color: var(--gbc2);
       position: absolute;
-      top: 12px;
-      right: 20px;
+      top: 10px;
+      right: 16px;
       line-height: 1;
-      transition: color .35s;
+      transition: color .4s;
     }
 
     .svc-card:hover .svc-n {
-      color: var(--border);
+      color: var(--gbc);
     }
 
     .svc-ico {
-      width: 46px;
-      height: 46px;
-      border: 1px solid var(--border);
+      width: 42px;
+      height: 42px;
       border-radius: 9px;
       display: flex;
       align-items: center;
       justify-content: center;
-      margin-bottom: 22px;
-      transition: border-color .35s, background .35s;
+      margin-bottom: 18px;
+      border: 1px solid var(--gbc);
+      transition: background .32s, border-color .32s;
     }
 
     .svc-card:hover .svc-ico {
-      border-color: var(--blue);
-      background: rgba(26, 111, 212, .1);
+      background: rgba(26, 111, 212, 0.12);
+      border-color: var(--sky);
     }
 
     .svc-name {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 1.55rem;
+      font-family: var(--display);
+      font-size: 1.48rem;
       font-weight: 600;
-      margin-bottom: 10px;
+      margin-bottom: 9px;
     }
 
     .svc-desc {
-      font-size: .82rem;
+      font-size: .8rem;
       color: var(--muted);
-      line-height: 1.8;
+      line-height: 1.82;
     }
 
-    .svc-bullets {
-      margin-top: 16px;
-      display: flex;
-      flex-wrap: wrap;
-      gap: 6px;
-    }
-
-    .svc-bullet {
-      padding: 4px 12px;
-      background: var(--border2);
-      border: 1px solid var(--border);
+    .tag {
+      display: inline-block;
+      padding: 4px 11px;
       border-radius: 100px;
-      font-size: .66rem;
-      letter-spacing: .07em;
+      font-size: .62rem;
+      letter-spacing: .06em;
+      border: 1px solid var(--gbc2);
       color: var(--muted);
-      transition: background .28s, color .28s, border-color .28s;
+      transition: all .28s;
+      background: rgba(125, 211, 252, 0.03);
     }
 
-    .svc-card:hover .svc-bullet {
-      background: rgba(26, 111, 212, .1);
-      border-color: rgba(77, 157, 224, .28);
-      color: var(--cyan);
+    .svc-card:hover .tag {
+      background: rgba(26, 111, 212, 0.11);
+      border-color: rgba(125, 211, 252, 0.28);
+      color: var(--sky);
     }
 
-    /* ══════════════════════ ABOUT ══════════════════════ */
+    /* ── ABOUT ── */
     .about {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
+      padding: var(--pad) clamp(16px, 4vw, 56px);
       background: var(--bg2);
     }
 
-    .about-visual {
-      padding: var(--pad) clamp(18px, 4vw, 60px);
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      background: var(--bg3);
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 52px;
+      align-items: center;
+    }
+
+    .about-glass {
+      padding: 36px;
+      border-radius: 20px;
       position: relative;
       overflow: hidden;
     }
 
-    .about-visual::before {
+    .about-glass::after {
       content: '';
       position: absolute;
-      top: -160px;
-      right: -160px;
-      width: 500px;
-      height: 500px;
-      background: radial-gradient(circle, rgba(26, 111, 212, .07) 0%, transparent 70%);
+      top: -50px;
+      right: -50px;
+      width: 180px;
+      height: 180px;
+      background: radial-gradient(circle, rgba(125, 211, 252, 0.11), transparent 70%);
       pointer-events: none;
     }
 
-    .about-logo-large {
-      width: 160px;
-      height: auto;
-      margin-bottom: 32px;
-      filter: drop-shadow(0 0 24px rgba(77, 157, 224, .38));
+    .about-logo {
+      width: 120px;
+      margin-bottom: 24px;
+      filter: drop-shadow(0 0 18px rgba(125, 211, 252, 0.38));
     }
 
-    .about-quote {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: clamp(1.25rem, 2.2vw, 1.75rem);
+    .about-q {
+      font-family: var(--display);
+      font-size: clamp(1.15rem, 1.9vw, 1.55rem);
       font-style: italic;
-      font-weight: 400;
-      line-height: 1.55;
-      color: var(--white);
-      margin-bottom: 18px;
+      font-weight: 300;
+      line-height: 1.62;
+      color: var(--text);
+      margin-bottom: 14px;
+      padding-left: 20px;
+      border-left: 3px solid linear-gradient(var(--sky), var(--blue));
       position: relative;
-      z-index: 1;
     }
 
-    .about-quote::before {
-      content: '"';
-      font-size: 5rem;
-      color: var(--border);
+    .about-q::before {
+      content: '';
       position: absolute;
-      top: -22px;
-      left: -16px;
-      font-family: 'Cormorant Garamond', serif;
-      line-height: 1;
+      left: 0;
+      top: 6px;
+      bottom: 6px;
+      width: 3px;
+      background: linear-gradient(180deg, var(--sky), var(--blue));
+      border-radius: 2px;
     }
 
     .about-attr {
-      font-size: .64rem;
+      font-size: .6rem;
       letter-spacing: .15em;
       text-transform: uppercase;
-      color: var(--blue-l);
-      display: flex;
-      align-items: center;
-      gap: 9px;
-      position: relative;
-      z-index: 1;
+      color: var(--sky);
+      padding-left: 20px;
     }
 
-    .about-attr::before {
-      content: '';
-      width: 18px;
-      height: 1px;
-      background: var(--blue-l);
-    }
-
-    .stat-row {
+    .trio {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       gap: 1px;
-      background: var(--border);
-      margin-top: 32px;
-      border: 1px solid var(--border);
-      border-radius: 7px;
+      margin-top: 24px;
+      border-radius: 9px;
       overflow: hidden;
+      border: 1px solid var(--gbc);
     }
 
-    .sbox {
-      padding: 18px;
-      background: var(--bg2);
+    .trio-c {
+      padding: 14px;
       text-align: center;
+      background: var(--gb2);
+      backdrop-filter: blur(8px);
     }
 
-    .sbox-n {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 2rem;
+    .trio-n {
+      font-family: var(--display);
+      font-size: 1.8rem;
       font-weight: 700;
-      color: var(--white);
+      color: var(--text);
     }
 
-    .sbox-n span {
-      color: var(--blue-l);
+    .trio-n span {
+      color: var(--sky);
     }
 
-    .sbox-l {
-      font-size: .6rem;
+    .trio-l {
+      font-size: .56rem;
       letter-spacing: .1em;
       text-transform: uppercase;
       color: var(--muted);
-      margin-top: 3px;
-    }
-
-    .about-content {
-      padding: var(--pad) clamp(18px, 4vw, 60px);
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-    }
-
-    .feat-list {
-      display: flex;
-      flex-direction: column;
+      margin-top: 2px;
     }
 
     .feat {
       display: flex;
-      gap: 16px;
-      padding: 22px 0;
-      border-bottom: 1px solid var(--border2);
+      gap: 13px;
+      padding: 18px 0;
+      border-bottom: 1px solid var(--gbc2);
       align-items: flex-start;
-      transition: padding-left .28s;
+      transition: padding-left .25s;
     }
 
     .feat:last-child {
@@ -1022,776 +1129,559 @@
       padding-left: 5px;
     }
 
-    .feat-icon {
-      width: 36px;
-      height: 36px;
+    .feat-ico {
+      width: 33px;
+      height: 33px;
       flex-shrink: 0;
-      border: 1px solid var(--border);
       border-radius: 7px;
+      border: 1px solid var(--gbc);
       display: flex;
       align-items: center;
       justify-content: center;
       transition: background .28s, border-color .28s;
     }
 
-    .feat:hover .feat-icon {
-      background: rgba(26, 111, 212, .13);
-      border-color: var(--blue);
+    .feat:hover .feat-ico {
+      background: rgba(26, 111, 212, 0.14);
+      border-color: var(--sky);
     }
 
-    .feat-title {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 1.05rem;
+    .feat-t {
+      font-family: var(--display);
+      font-size: 1rem;
       font-weight: 600;
-      margin-bottom: 4px;
+      margin-bottom: 3px;
     }
 
-    .feat-desc {
-      font-size: .8rem;
+    .feat-d {
+      font-size: .77rem;
       color: var(--muted);
       line-height: 1.75;
     }
 
-    /* ══════════════════════ PROCESS ══════════════════════ */
+    /* ── PROCESS ── */
     .process {
-      padding: var(--pad) clamp(18px, 4vw, 60px);
+      padding: var(--pad) clamp(16px, 4vw, 56px);
       background: var(--bg);
     }
 
-    .process-grid {
+    .proc-grid {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
-      gap: 2px;
-      background: var(--border2);
-      margin-top: 40px;
+      gap: 13px;
+      margin-top: 34px;
     }
 
-    .pcard {
-      background: var(--card);
-      padding: 32px 24px;
+    .p-card {
+      padding: 26px 20px;
+      border-radius: var(--radius);
       position: relative;
       overflow: hidden;
-      transition: background var(--trans);
     }
 
-    .pcard:hover {
-      background: var(--bg3);
+    .p-card::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--blue), var(--sky));
+      transition: width .5s;
     }
 
-    .pcard-num {
-      width: 48px;
-      height: 48px;
+    .p-card:hover::after {
+      width: 100%;
+    }
+
+    .pnum {
+      width: 44px;
+      height: 44px;
       border-radius: 50%;
-      border: 1px solid var(--border);
+      border: 1px solid var(--gbc);
       display: flex;
       align-items: center;
       justify-content: center;
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 1.2rem;
+      font-family: var(--display);
+      font-size: 1.15rem;
       font-weight: 700;
-      color: var(--blue-l);
-      margin-bottom: 20px;
-      position: relative;
-      z-index: 1;
-      background: var(--card);
-      transition: border-color .35s, background .35s, box-shadow .35s;
+      color: var(--sky);
+      margin-bottom: 16px;
+      transition: border-color .32s, background .32s, box-shadow .32s;
     }
 
-    .pcard:hover .pcard-num {
-      border-color: var(--blue);
-      background: rgba(26, 111, 212, .1);
-      box-shadow: 0 0 16px var(--blue-glow);
+    .p-card:hover .pnum {
+      border-color: var(--sky);
+      background: rgba(26, 111, 212, 0.12);
+      box-shadow: 0 0 14px rgba(125, 211, 252, 0.18);
     }
 
-    .pcard-name {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 1.1rem;
+    .pname {
+      font-family: var(--display);
+      font-size: 1.05rem;
       font-weight: 600;
-      margin-bottom: 8px;
+      margin-bottom: 7px;
     }
 
-    .pcard-desc {
-      font-size: .78rem;
+    .pdesc {
+      font-size: .76rem;
       color: var(--muted);
       line-height: 1.75;
     }
 
-    /* ══════════════════════ GALLERY CAROUSEL ══════════════════════ */
+    /* ── GALLERY ── */
     .gallery {
-      padding: var(--pad) clamp(18px, 4vw, 60px);
+      padding: var(--pad) clamp(16px, 4vw, 56px);
       background: var(--bg2);
     }
 
-    .carousel-wrap {
-      position: relative;
-      margin-top: 40px;
-      border-radius: 10px;
+    .carousel {
+      margin-top: 34px;
+      border-radius: var(--radius);
       overflow: hidden;
-      background: var(--bg3);
-      border: 1px solid var(--border2);
+      position: relative;
     }
 
-    .carousel-track {
+    .c-track {
       display: flex;
       transition: transform .55s cubic-bezier(.4, 0, .2, 1);
-      width: 100%;
     }
 
-    .carousel-slide {
+    .c-slide {
       min-width: 100%;
-      height: 460px;
+      height: 420px;
       display: flex;
       align-items: center;
       justify-content: center;
     }
 
-    .carousel-slide img {
+    .c-slide img {
       width: 100%;
       height: 100%;
       object-fit: contain;
     }
 
-    .carousel-btn {
+    .c-btn {
       position: absolute;
       top: 50%;
       transform: translateY(-50%);
-      background: rgba(10, 15, 26, .55);
-      border: 1px solid rgba(255, 255, 255, .1);
-      width: 42px;
-      height: 42px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      backdrop-filter: blur(8px);
-      transition: all .28s;
-      z-index: 10;
-    }
-
-    .carousel-btn:hover {
-      background: var(--blue);
-      border-color: var(--blue-l);
-    }
-
-    .carousel-prev {
-      left: 18px;
-    }
-
-    .carousel-next {
-      right: 18px;
-    }
-
-    .carousel-dots {
-      position: absolute;
-      bottom: 18px;
-      left: 50%;
-      transform: translateX(-50%);
-      display: flex;
-      gap: 10px;
-      z-index: 10;
-    }
-
-    .carousel-dot {
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      background: rgba(255, 255, 255, .28);
-      border: none;
-      cursor: pointer;
-      transition: all .28s;
-    }
-
-    .carousel-dot.active {
-      background: var(--blue);
-      transform: scale(1.3);
-    }
-
-    /* ══════════════════════ TESTIMONIALS ══════════════════════ */
-    .testimonials {
-      padding: var(--pad) clamp(18px, 4vw, 60px);
-      background: var(--bg);
-    }
-
-    .testi-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 16px;
-      margin-top: 40px;
-    }
-
-    .tcard {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 28px;
-      position: relative;
-      overflow: hidden;
-      transition: transform .28s, box-shadow .28s, border-color .28s;
-    }
-
-    .tcard:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 12px 32px rgba(26, 111, 212, .12);
-      border-color: rgba(77, 157, 224, .28);
-    }
-
-    .tcard-quote {
-      font-size: .84rem;
-      color: var(--muted);
-      line-height: 1.85;
-      margin-bottom: 20px;
-      position: relative;
-    }
-
-    .tcard-quote::before {
-      content: '"';
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 3rem;
-      color: var(--border);
-      position: absolute;
-      top: -8px;
-      left: -4px;
-      line-height: 1;
-    }
-
-    .tcard-author {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-
-    .tcard-avatar {
       width: 38px;
       height: 38px;
       border-radius: 50%;
-      background: linear-gradient(135deg, var(--blue), var(--blue-l));
       display: flex;
       align-items: center;
       justify-content: center;
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 1.1rem;
+      cursor: pointer;
+      border: none;
+      z-index: 10;
+      transition: all .25s;
+    }
+
+    .c-btn:hover {
+      background: var(--blue) !important;
+    }
+
+    .c-prev {
+      left: 14px;
+    }
+
+    .c-next {
+      right: 14px;
+    }
+
+    .c-dots {
+      position: absolute;
+      bottom: 14px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 8px;
+      z-index: 10;
+    }
+
+    .cdot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      border: none;
+      cursor: pointer;
+      background: rgba(255, 255, 255, .25);
+      transition: all .25s;
+    }
+
+    .cdot.on {
+      background: var(--sky);
+      transform: scale(1.4);
+    }
+
+    /* ── TESTIMONIALS ── */
+    .testi {
+      padding: var(--pad) clamp(16px, 4vw, 56px);
+      background: var(--bg);
+    }
+
+    .tg {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      margin-top: 34px;
+    }
+
+    .t-card {
+      padding: 24px;
+      border-radius: var(--radius);
+    }
+
+    .t-stars {
+      display: flex;
+      gap: 2px;
+      margin-bottom: 11px;
+    }
+
+    .t-stars span {
+      color: #f4c430;
+      font-size: .72rem;
+    }
+
+    .t-q {
+      font-size: .8rem;
+      color: var(--muted);
+      line-height: 1.86;
+      margin-bottom: 16px;
+      padding-left: 14px;
+      border-left: 2px solid rgba(125, 211, 252, 0.4);
+    }
+
+    .t-author {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .t-av {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--blue), var(--sky));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--display);
+      font-size: .98rem;
       font-weight: 700;
       color: #fff;
       flex-shrink: 0;
     }
 
-    .tcard-name {
-      font-size: .82rem;
+    .t-name {
+      font-size: .8rem;
       font-weight: 600;
-      color: var(--white);
+      color: var(--text);
     }
 
-    .tcard-role {
-      font-size: .68rem;
+    .t-role {
+      font-size: .64rem;
       color: var(--muted);
-      letter-spacing: .05em;
     }
 
-    .tcard-stars {
-      display: flex;
-      gap: 3px;
-      margin-bottom: 14px;
-    }
-
-    .tcard-stars span {
-      color: #f4c430;
-      font-size: .75rem;
-    }
-
-    /* ══════════════════════ CONTACT ══════════════════════ */
+    /* ── CONTACT ── */
     .contact {
-      padding: var(--pad) clamp(18px, 4vw, 60px);
+      padding: var(--pad) clamp(16px, 4vw, 56px);
       background: var(--bg2);
+    }
+
+    .con-grid {
       display: grid;
       grid-template-columns: 1fr 1.3fr;
-      gap: 64px;
+      gap: 52px;
       align-items: start;
     }
 
-    .cdetail {
+    .cd {
       display: flex;
-      gap: 14px;
+      gap: 12px;
       align-items: flex-start;
-      margin-bottom: 22px;
+      margin-bottom: 18px;
     }
 
-    .cicon {
-      width: 40px;
-      height: 40px;
+    .cd-ico {
+      width: 36px;
+      height: 36px;
       flex-shrink: 0;
-      background: rgba(26, 111, 212, .09);
-      border: 1px solid var(--border);
-      border-radius: 8px;
+      border-radius: 7px;
       display: flex;
       align-items: center;
       justify-content: center;
     }
 
-    .clabel {
-      font-size: .6rem;
+    .cd-l {
+      font-size: .56rem;
       letter-spacing: .13em;
       text-transform: uppercase;
-      color: var(--blue-l);
+      color: var(--sky);
       margin-bottom: 2px;
     }
 
-    .cval {
-      font-size: .88rem;
-      color: var(--white);
+    .cd-v {
+      font-size: .84rem;
+      color: var(--text);
     }
 
-    .cform {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 36px;
+    .form-box {
+      padding: 32px;
+      border-radius: 18px;
     }
 
     .form-hed {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 1.5rem;
+      font-family: var(--display);
+      font-size: 1.4rem;
       font-weight: 700;
-      margin-bottom: 26px;
+      margin-bottom: 22px;
     }
 
-    .frow {
+    .f-row {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 12px;
-      margin-bottom: 12px;
+      gap: 11px;
+      margin-bottom: 11px;
     }
 
     .fg {
-      margin-bottom: 12px;
+      margin-bottom: 11px;
     }
 
-    .fg label {
+    .fl {
       display: block;
-      font-size: .6rem;
+      font-size: .56rem;
       font-weight: 600;
       letter-spacing: .13em;
       text-transform: uppercase;
       color: var(--muted);
-      margin-bottom: 6px;
+      margin-bottom: 5px;
     }
 
-    .fg input,
-    .fg select,
-    .fg textarea {
+    .fi {
       width: 100%;
-      padding: 10px 13px;
+      padding: 10px 12px;
       background: var(--bg);
-      border: 1px solid var(--border2);
+      border: 1px solid var(--gbc2);
       border-radius: 7px;
-      color: var(--white);
-      font-family: 'DM Sans', sans-serif;
-      font-size: .84rem;
+      color: var(--text);
+      font-family: var(--body);
+      font-size: .82rem;
       outline: none;
-      transition: border-color .25s, background .25s;
+      transition: border-color .25s, background .3s;
       -webkit-appearance: none;
     }
 
-    .fg select option {
-      background: var(--bg3);
+    .fi:focus {
+      border-color: var(--sky);
     }
 
-    .fg input:focus,
-    .fg select:focus,
-    .fg textarea:focus {
-      border-color: var(--blue);
+    .fi option {
+      background: var(--bg2);
     }
 
-    .fg textarea {
+    textarea.fi {
       resize: vertical;
-      min-height: 95px;
+      min-height: 88px;
     }
 
-    .fsubmit {
+    .fsub {
       width: 100%;
-      padding: 12px;
-      background: linear-gradient(135deg, var(--blue), #2580e8);
+      padding: 11px;
+      background: linear-gradient(135deg, var(--blue), var(--blue2));
       color: #fff;
       border: none;
       border-radius: 7px;
-      font-family: 'DM Sans', sans-serif;
-      font-size: .76rem;
+      font-family: var(--body);
+      font-size: .74rem;
       font-weight: 600;
       letter-spacing: .1em;
       text-transform: uppercase;
       cursor: pointer;
       transition: opacity .25s, transform .2s;
-      box-shadow: 0 3px 16px var(--blue-glow);
+      box-shadow: 0 3px 14px rgba(26, 111, 212, 0.32);
     }
 
-    .fsubmit:hover {
-      opacity: .84;
+    .fsub:hover {
+      opacity: .83;
       transform: translateY(-2px);
     }
 
-    /* ══════════════════════ FOOTER ══════════════════════ */
+    /* ── FOOTER ── */
     footer {
       background: var(--bg3);
-      border-top: 1px solid var(--border2);
-      padding: 44px clamp(18px, 4vw, 60px) 26px;
+      border-top: 1px solid var(--gbc2);
+      padding: 38px clamp(16px, 4vw, 56px) 20px;
+      position: relative;
+      z-index: 1;
     }
 
-    .footer-top {
+    .ft {
       display: flex;
       justify-content: space-between;
       align-items: flex-start;
-      padding-bottom: 32px;
-      border-bottom: 1px solid var(--border2);
-      gap: 32px;
+      padding-bottom: 26px;
+      border-bottom: 1px solid var(--gbc2);
+      gap: 26px;
       flex-wrap: wrap;
     }
 
-    .footer-brand {
+    .fb {
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 11px;
     }
 
-    .footer-brand img {
-      height: 44px;
-      filter: drop-shadow(0 0 9px rgba(77, 157, 224, .38));
+    .fb img {
+      height: 38px;
+      filter: drop-shadow(0 0 8px rgba(125, 211, 252, 0.35));
     }
 
-    .footer-name {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 1.2rem;
+    .fb-n {
+      font-family: var(--display);
+      font-size: 1.08rem;
       font-weight: 700;
-      color: var(--white);
+      color: var(--text);
     }
 
-    .footer-tagline {
-      font-size: .58rem;
+    .fb-s {
+      font-size: .52rem;
       letter-spacing: .13em;
       text-transform: uppercase;
-      color: var(--blue-l);
-      margin-top: 2px;
+      color: var(--sky);
+      margin-top: 1px;
     }
 
-    .fcol h5 {
-      font-size: .6rem;
-      letter-spacing: .16em;
+    .fc h5 {
+      font-size: .56rem;
+      letter-spacing: .15em;
       text-transform: uppercase;
       color: var(--muted);
-      margin-bottom: 14px;
-      opacity: .7;
+      opacity: .6;
+      margin-bottom: 11px;
     }
 
-    .fcol ul {
+    .fc ul {
       list-style: none;
     }
 
-    .fcol ul li {
-      margin-bottom: 9px;
+    .fc ul li {
+      margin-bottom: 8px;
     }
 
-    .fcol ul a {
-      font-size: .8rem;
+    .fc a {
+      font-size: .77rem;
       color: var(--muted);
       text-decoration: none;
       transition: color .22s;
     }
 
-    .fcol ul a:hover {
-      color: var(--blue-l);
+    .fc a:hover {
+      color: var(--sky);
     }
 
-    .footer-bottom {
+    .fb2 {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding-top: 22px;
+      padding-top: 16px;
       flex-wrap: wrap;
-      gap: 10px;
+      gap: 8px;
     }
 
-    .fcopy {
-      font-size: .68rem;
+    .fc2 {
+      font-size: .63rem;
       color: var(--muted);
-      opacity: .6;
+      opacity: .55;
     }
 
-    .fmade {
-      font-size: .68rem;
-      color: var(--blue-l);
-      letter-spacing: .07em;
+    .fm {
+      font-size: .63rem;
+      color: var(--sky);
+      letter-spacing: .06em;
     }
 
-    /* ══════════════════════ WHATSAPP FLOAT ══════════════════════ */
-    .wa-float {
+    /* ── FLOATING ── */
+    .wa {
       position: fixed;
-      bottom: 28px;
-      right: 28px;
+      bottom: 22px;
+      right: 20px;
       z-index: 300;
-      width: 52px;
-      height: 52px;
+      width: 50px;
+      height: 50px;
       border-radius: 50%;
       background: linear-gradient(135deg, #25d366, #128c7e);
       display: flex;
       align-items: center;
       justify-content: center;
-      box-shadow: 0 4px 20px rgba(37, 211, 102, .35);
       text-decoration: none;
+      box-shadow: 0 4px 16px rgba(37, 211, 102, .33);
       transition: transform .25s, box-shadow .25s;
-      animation: waPulse 2.5s ease-in-out infinite;
+      animation: wap 2.8s ease-in-out infinite;
     }
 
-    .wa-float:hover {
-      transform: scale(1.1);
-      box-shadow: 0 8px 28px rgba(37, 211, 102, .5);
+    .wa:hover {
+      transform: scale(1.12);
       animation: none;
+      box-shadow: 0 8px 26px rgba(37, 211, 102, .5);
     }
 
-    @keyframes waPulse {
+    @keyframes wap {
 
       0%,
       100% {
-        box-shadow: 0 4px 20px rgba(37, 211, 102, .35), 0 0 0 0 rgba(37, 211, 102, .3)
+        box-shadow: 0 4px 16px rgba(37, 211, 102, .33), 0 0 0 0 rgba(37, 211, 102, .28)
       }
 
       50% {
-        box-shadow: 0 4px 20px rgba(37, 211, 102, .35), 0 0 0 10px rgba(37, 211, 102, 0)
+        box-shadow: 0 4px 16px rgba(37, 211, 102, .33), 0 0 0 10px rgba(37, 211, 102, 0)
       }
     }
 
-    /* ══════════════════════ REVEAL ══════════════════════ */
-    .rev {
-      opacity: 0;
-      transform: translateY(26px);
-      transition: opacity .75s ease, transform .75s ease;
-    }
-
-    .rev.vis {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    .rd1 {
-      transition-delay: .1s
-    }
-
-    .rd2 {
-      transition-delay: .2s
-    }
-
-    .rd3 {
-      transition-delay: .3s
-    }
-
-    .rd4 {
-      transition-delay: .4s
-    }
-
-    /* ══════════════════════ SCROLL-TO-TOP ══════════════════════ */
-    .scroll-top {
+    .stt {
       position: fixed;
-      bottom: 90px;
-      right: 28px;
+      bottom: 84px;
+      right: 20px;
       z-index: 300;
-      width: 38px;
-      height: 38px;
+      width: 36px;
+      height: 36px;
       border-radius: 50%;
-      background: var(--bg3);
-      border: 1px solid var(--border);
       display: flex;
       align-items: center;
       justify-content: center;
       cursor: pointer;
+      border: none;
       opacity: 0;
       pointer-events: none;
-      transition: opacity .28s, transform .25s, background .25s;
+      transition: opacity .28s, transform .25s;
     }
 
-    .scroll-top.show {
+    .stt.on {
       opacity: 1;
       pointer-events: all;
     }
 
-    .scroll-top:hover {
-      background: var(--blue);
-      border-color: var(--blue);
+    .stt:hover {
+      transform: translateY(-2px);
     }
 
-    /* ══════════════════════ MOBILE-FIRST IMPROVEMENTS ══════════════════════ */
-    /* Remove tap highlight on interactive elements */
-    a,
-    button {
-      -webkit-tap-highlight-color: transparent;
-    }
-
-    /* Touch-friendly tap targets (min 44px) */
-    .nav-links a,
-    .fcol ul a {
-      min-height: 44px;
-      display: inline-flex;
-      align-items: center;
-    }
-
-    /* Hero mobile: full width, comfortable padding */
-    @media(max-width:480px) {
-      .hero-left {
-        padding: 36px 18px 48px;
-      }
-
-      .hero-title {
-        font-size: clamp(2rem, 9vw, 2.8rem);
-      }
-
-      .hero-sub {
-        font-size: .85rem;
-        max-width: 100%;
-      }
-
-      .hero-pill-text {
-        font-size: .58rem;
-      }
-
-      .hero-actions {
-        flex-direction: column;
-        align-items: stretch;
-      }
-
-      .btn-blue,
-      .btn-glass {
-        text-align: center;
-        padding: 13px 20px;
-        font-size: .78rem;
-      }
-
-      .hero-stats {
-        max-width: 100%;
-      }
-
-      .hstat {
-        padding: 12px 10px;
-      }
-
-      .hstat-n {
-        font-size: 1.5rem;
-      }
-
-      /* Sections tighter on small phones */
-      .sec-title {
-        font-size: clamp(1.6rem, 7vw, 2rem);
-        margin-bottom: 24px;
-      }
-
-      .svc-card {
-        padding: 28px 20px;
-      }
-
-      .pcard {
-        padding: 24px 18px;
-      }
-
-      .cform {
-        padding: 24px 18px;
-      }
-
-      .about-visual,
-      .about-content {
-        padding: 36px 18px;
-      }
-
-      .services,
-      .about-content,
-      .process,
-      .gallery,
-      .testimonials,
-      .contact {
-        padding: 40px 18px;
-      }
-
-      .footer-top {
-        padding-bottom: 24px;
-      }
-
-      footer {
-        padding: 36px 18px 24px;
-      }
-
-      /* Contact stacks cleanly */
-      .contact {
-        padding: 40px 18px;
-        gap: 32px;
-      }
-
-      /* Testimonials single col already handled, add padding fix */
-      .tcard {
-        padding: 22px 18px;
-      }
-
-      /* Scroll/WA buttons position for thumbs */
-      .wa-float {
-        bottom: 20px;
-        right: 18px;
-        width: 48px;
-        height: 48px;
-      }
-
-      .scroll-top {
-        bottom: 80px;
-        right: 18px;
-      }
-
-      /* Carousel height on small screens */
-      .carousel-slide {
-        height: 260px;
-      }
-
-      .carousel-btn {
-        width: 36px;
-        height: 36px;
-      }
-
-      /* Stat row font */
-      .sbox-n {
-        font-size: 1.6rem;
-      }
-
-      .stat-row {
-        margin-top: 24px;
-      }
-    }
-
-    /* Swipe indicator on carousel */
-    .carousel-swipe-hint {
-      position: absolute;
-      bottom: 52px;
-      left: 50%;
-      transform: translateX(-50%);
-      font-size: .6rem;
-      letter-spacing: .12em;
-      text-transform: uppercase;
-      color: rgba(255, 255, 255, .35);
-      pointer-events: none;
-      display: none;
-    }
-
-    @media(max-width:768px) {
-      .carousel-swipe-hint {
-        display: block;
-      }
-    }
-
+    /* ── RESPONSIVE ── */
     @media(max-width:1024px) {
       .hero {
         grid-template-columns: 1fr;
       }
 
-      .hero-right {
+      .hero-r {
         display: none;
       }
 
-      .about {
+      .about-grid {
         grid-template-columns: 1fr;
       }
 
-      .process-grid {
+      .proc-grid {
         grid-template-columns: repeat(2, 1fr);
       }
 
@@ -1799,20 +1689,20 @@
         grid-template-columns: 1fr;
       }
 
-      .testi-grid {
+      .tg {
         grid-template-columns: 1fr 1fr;
       }
 
-      .contact {
+      .con-grid {
         grid-template-columns: 1fr;
-        gap: 40px;
+        gap: 34px;
       }
     }
 
     @media(max-width:768px) {
 
-      .nav-links,
-      .nav-cta {
+      .nav-links-list,
+      .btn-q {
         display: none;
       }
 
@@ -1820,37 +1710,83 @@
         display: flex;
       }
 
-      .mobile-nav {
+      .m-drawer {
         display: flex;
       }
 
-      .hero-stats {
-        flex-wrap: wrap;
+      .stat-strip {
+        max-width: 100%;
       }
 
-      .hstat {
-        min-width: 50%;
-      }
-
-      .frow {
+      .tg {
         grid-template-columns: 1fr;
       }
 
-      .footer-top {
+      .ft {
         flex-direction: column;
       }
 
-      .process-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .footer-bottom {
+      .fb2 {
         flex-direction: column;
         text-align: center;
       }
 
-      .testi-grid {
+      .proc-grid {
         grid-template-columns: 1fr;
+      }
+
+      .f-row {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media(max-width:480px) {
+      .hero-l {
+        padding: 32px 16px 44px;
+      }
+
+      .h-title {
+        font-size: clamp(2rem, 9vw, 2.75rem);
+      }
+
+      .h-ctas {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .btn-p,
+      .btn-o {
+        text-align: center;
+        padding: 13px 20px;
+      }
+
+      .stat-strip {
+        grid-template-columns: repeat(3, 1fr);
+      }
+
+      .c-slide {
+        height: 240px;
+      }
+
+      .svc-card,
+      .p-card,
+      .t-card {
+        padding: 22px 16px;
+      }
+
+      .about-glass,
+      .form-box {
+        padding: 24px 16px;
+      }
+
+      .wa {
+        bottom: 16px;
+        right: 14px;
+      }
+
+      .stt {
+        bottom: 78px;
+        right: 14px;
       }
     }
   </style>
@@ -1858,20 +1794,30 @@
 
 <body>
 
-  <div id="cur"></div>
-  <div id="cur-r"></div>
+  <!-- Background scene -->
+  <div class="bg-scene">
+    <div class="bg-grid"></div>
+    <div class="bg-orb ob1"></div>
+    <div class="bg-orb ob2"></div>
+    <div class="bg-orb ob3"></div>
+    <div class="bg-pane bp1" style="--r:14deg;"></div>
+    <div class="bg-pane bp2" style="--r:-7deg;"></div>
+    <div class="bg-pane bp3" style="--r:5deg;"></div>
+  </div>
 
-  <!-- WhatsApp Float -->
-  <a class="wa-float" href="https://wa.me/917411495677" target="_blank" rel="noopener" title="Chat on WhatsApp">
-    <svg width="26" height="26" viewBox="0 0 24 24" fill="#fff">
+  <div id="cur"></div>
+  <div id="curR"></div>
+
+  <!-- WhatsApp -->
+  <a class="wa" href="https://wa.me/917411495677" target="_blank" rel="noopener" aria-label="WhatsApp">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="#fff">
       <path
         d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
     </svg>
   </a>
 
-  <!-- Scroll to top -->
-  <button class="scroll-top" id="scrollTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+  <button class="stt glass" id="stt" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="Top">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
       <polyline points="18 15 12 9 6 15" />
     </svg>
   </button>
@@ -1879,28 +1825,28 @@
   <!-- NAV -->
   <nav id="nav">
     <a href="#" class="nav-logo">
-      <img src="images/icon.png" alt="Elite Works Logo">
-      <div class="nav-brand">
-        <span class="nav-brand-name">Elite Works</span>
-        <span class="nav-brand-sub">Glass · Fabrication · Aluminium</span>
+      <img src="images/icon.png" alt="Elite Works">
+      <div>
+        <div class="nav-bn">Elite Works</div>
+        <div class="nav-bs">Glass · Fabrication · Aluminium</div>
       </div>
     </a>
-    <ul class="nav-links" id="navLinks">
-      <li><a href="#services">Services</a></li>
-      <li><a href="#about">About</a></li>
-      <li><a href="#projects">Projects</a></li>
-      <li><a href="#contact">Contact</a></li>
+
+    <ul class="nav-links-list">
+      <li><a class="nl" href="#services">Services</a></li>
+      <li><a class="nl" href="#about">About</a></li>
+      <li><a class="nl" href="#projects">Projects</a></li>
+      <li><a class="nl" href="#contact">Contact</a></li>
     </ul>
-    <div class="nav-right">
-      <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark/light mode" title="Toggle theme">
-        <!-- Moon (shown in dark mode) -->
-        <svg class="icon-moon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#7dd3fc" stroke-width="2"
-          stroke-linecap="round" stroke-linejoin="round">
+
+    <div style="display:flex;align-items:center;gap:9px;">
+      <button class="th-btn glass" id="thBtn" aria-label="Toggle theme">
+        <svg class="ico-moon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#7dd3fc" stroke-width="2"
+          stroke-linecap="round">
           <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
         </svg>
-        <!-- Sun (shown in light mode) -->
-        <svg class="icon-sun" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1a6fd4" stroke-width="2"
-          stroke-linecap="round" stroke-linejoin="round">
+        <svg class="ico-sun" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#1a6fd4" stroke-width="2"
+          stroke-linecap="round">
           <circle cx="12" cy="12" r="5" />
           <line x1="12" y1="1" x2="12" y2="3" />
           <line x1="12" y1="21" x2="12" y2="23" />
@@ -1912,99 +1858,92 @@
           <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
         </svg>
       </button>
-      <a href="#contact" class="nav-cta">Free Quote</a>
-      <div class="hamburger" id="hamburger">
-        <span></span><span></span><span></span>
-      </div>
+      <a href="#contact" class="btn-q">Free Quote</a>
+      <div class="hamburger" id="hbg"><span></span><span></span><span></span></div>
     </div>
   </nav>
 
-  <!-- Mobile Nav -->
-  <div class="mobile-nav" id="mobileNav">
-    <a href="#services" onclick="closeMobile()">Services</a>
-    <a href="#about" onclick="closeMobile()">About</a>
-    <a href="#projects" onclick="closeMobile()">Projects</a>
-    <a href="#testimonials" onclick="closeMobile()">Reviews</a>
-    <a href="#contact" onclick="closeMobile()">Contact</a>
+  <div class="m-drawer" id="mDr">
+    <a href="#services" onclick="cMob()">Services</a>
+    <a href="#about" onclick="cMob()">About</a>
+    <a href="#projects" onclick="cMob()">Projects</a>
+    <a href="#testimonials" onclick="cMob()">Reviews</a>
+    <a href="#contact" onclick="cMob()">Contact</a>
   </div>
 
   <!-- HERO -->
   <section class="hero" id="home">
-    <div class="hero-bg">
-      <div class="p-grid"></div>
-      <div class="orb orb1"></div>
-      <div class="orb orb2"></div>
-    </div>
-    <div class="hero-left">
-      <div class="hero-pill">
-        <span class="hero-pill-dot"></span>
-        <span class="hero-pill-text">Premium Construction Works · Mysuru</span>
+    <div class="hero-l">
+      <div class="pill glass" data-aos="fade-up" data-aos-delay="40">
+        <span class="pill-dot"></span>
+        <span class="pill-txt">Premium Works · Mysuru, Karnataka</span>
       </div>
-      <h1 class="hero-title">
+      <h1 class="h-title" data-aos="fade-up" data-aos-delay="130">
         Precision Glass<br>
-        <span class="line2">& Fabrication</span><br>
-        <span class="line3">Excellence</span>
+        <span class="h-italic">& Fabrication</span><br>
+        <span class="h-bar">Excellence</span>
       </h1>
-      <p class="hero-sub">Elite Works delivers flawless glass fitting, expert steel fabrication, and premium aluminium
-        systems — built to impress, built to last.</p>
-      <div class="hero-actions">
-        <a href="#contact" class="btn-blue">Get Free Quote</a>
-        <a href="#services" class="btn-glass">View Services →</a>
+      <p class="h-sub" data-aos="fade-up" data-aos-delay="220">Elite Works delivers flawless glass fitting, expert steel
+        fabrication, and premium aluminium systems — built to impress, engineered to last.</p>
+      <div class="h-ctas" data-aos="fade-up" data-aos-delay="300">
+        <a href="#contact" class="btn-p">Get Free Quote</a>
+        <a href="#services" class="btn-o glass-sm">View Services →</a>
       </div>
-      <div class="hero-stats">
-        <div class="hstat">
-          <div class="hstat-n">100<sup>+</sup></div>
-          <div class="hstat-l">Projects Done</div>
+      <div class="stat-strip glass" data-aos="fade-up" data-aos-delay="380">
+        <div class="stat-c">
+          <div class="stat-n">100<sup>+</sup></div>
+          <div class="stat-l">Projects</div>
         </div>
-        <div class="hstat">
-          <div class="hstat-n">5<sup>+</sup></div>
-          <div class="hstat-l">Years Exp.</div>
+        <div class="stat-c">
+          <div class="stat-n">5<sup>+</sup></div>
+          <div class="stat-l">Years</div>
         </div>
-        <div class="hstat">
-          <div class="hstat-n">100<sup>+</sup></div>
-          <div class="hstat-l">Happy Clients</div>
+        <div class="stat-c">
+          <div class="stat-n">100<sup>+</sup></div>
+          <div class="stat-l">Clients</div>
         </div>
       </div>
     </div>
-    <div class="hero-right">
-      <div class="logo-showcase">
-        <div class="logo-ring ring1">
-          <div class="ring-dot"></div>
+
+    <div class="hero-r">
+      <div class="showcase">
+        <div class="ring rg1">
+          <div class="rdot"></div>
         </div>
-        <div class="logo-ring ring2">
-          <div class="ring-dot"></div>
-        </div>
-        <div class="logo-ring ring3"></div>
-        <div class="logo-glow"></div>
-        <div class="logo-img-wrap"><img src="images/icon.png" alt="Logo" /></div>
+        <div class="ring rg2"></div>
+        <div class="sp sp-a"></div>
+        <div class="sp sp-b"></div>
+        <div class="sp sp-c"><img src="images/icon.png" alt="Elite Works" /></div>
       </div>
     </div>
   </section>
 
   <!-- MARQUEE -->
-  <div class="marquee-wrap">
-    <div class="m-track">
-      <div class="m-item">Glass Fitting<span class="m-sep">◆</span></div>
-      <div class="m-item">Fabrication Works<span class="m-sep">◆</span></div>
-      <div class="m-item">Aluminium Works<span class="m-sep">◆</span></div>
-      <div class="m-item">Elite Craftsmanship<span class="m-sep">◆</span></div>
-      <div class="m-item">Premium Quality<span class="m-sep">◆</span></div>
-      <div class="m-item">Glass Fitting<span class="m-sep">◆</span></div>
-      <div class="m-item">Fabrication Works<span class="m-sep">◆</span></div>
-      <div class="m-item">Aluminium Works<span class="m-sep">◆</span></div>
-      <div class="m-item">Elite Craftsmanship<span class="m-sep">◆</span></div>
-      <div class="m-item">Premium Quality<span class="m-sep">◆</span></div>
+  <div class="mq-wrap">
+    <div class="mq-track">
+      <span class="mq-item">Glass Fitting<span class="mq-sep">◆</span></span>
+      <span class="mq-item">Fabrication Works<span class="mq-sep">◆</span></span>
+      <span class="mq-item">Aluminium Works<span class="mq-sep">◆</span></span>
+      <span class="mq-item">Spider Glazing<span class="mq-sep">◆</span></span>
+      <span class="mq-item">Elite Craftsmanship<span class="mq-sep">◆</span></span>
+      <span class="mq-item">Premium Quality<span class="mq-sep">◆</span></span>
+      <span class="mq-item">Glass Fitting<span class="mq-sep">◆</span></span>
+      <span class="mq-item">Fabrication Works<span class="mq-sep">◆</span></span>
+      <span class="mq-item">Aluminium Works<span class="mq-sep">◆</span></span>
+      <span class="mq-item">Spider Glazing<span class="mq-sep">◆</span></span>
+      <span class="mq-item">Elite Craftsmanship<span class="mq-sep">◆</span></span>
+      <span class="mq-item">Premium Quality<span class="mq-sep">◆</span></span>
     </div>
   </div>
 
   <!-- SERVICES -->
   <section class="services" id="services">
-    <p class="sec-eyebrow rev">What We Do</p>
-    <h2 class="sec-title rev rd1">Our Core <em>Services</em></h2>
+    <div class="eyebrow" data-aos="fade-right">What We Do</div>
+    <h2 class="s-head" data-aos="fade-up" data-aos-delay="70">Our Core <em>Services</em></h2>
     <div class="svc-grid">
-      <div class="svc-card rev">
+      <div class="svc-card glass-card" data-aos="fade-up" data-aos-delay="100">
         <div class="svc-n">01</div>
-        <div class="svc-ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#4d9de0"
+        <div class="svc-ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#7dd3fc"
             stroke-width="1.5">
             <rect x="3" y="3" width="18" height="18" rx="1" />
             <line x1="3" y1="9" x2="21" y2="9" />
@@ -2015,110 +1954,112 @@
         <h3 class="svc-name">Glass Fitting</h3>
         <p class="svc-desc">Frameless glass doors, partitions, spider glazing, shower enclosures, glass railings, and
           structural glazing — installed with absolute precision.</p>
-        <div class="svc-bullets"><span class="svc-bullet">Frameless</span><span class="svc-bullet">Tempered</span><span
-            class="svc-bullet">Spider Glazing</span><span class="svc-bullet">Shower Enclosures</span></div>
+        <div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:14px;"><span class="tag">Frameless</span><span
+            class="tag">Tempered</span><span class="tag">Spider Glazing</span><span class="tag">Showers</span></div>
       </div>
-      <div class="svc-card rev rd1">
+      <div class="svc-card glass-card" data-aos="fade-up" data-aos-delay="170">
         <div class="svc-n">02</div>
-        <div class="svc-ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#4d9de0"
+        <div class="svc-ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#7dd3fc"
             stroke-width="1.5">
             <path d="M12 2L2 7l10 5 10-5-10-5z" />
             <path d="M2 17l10 5 10-5M2 12l10 5 10-5" />
           </svg></div>
         <h3 class="svc-name">Fabrication Works</h3>
         <p class="svc-desc">Custom SS and MS fabrication — handrails, gates, canopies, and structural steel works
-          designed and crafted to your exact specifications.</p>
-        <div class="svc-bullets"><span class="svc-bullet">SS Railings</span><span class="svc-bullet">MS
-            Gates</span><span class="svc-bullet">Canopies</span><span class="svc-bullet">Steel Structures</span></div>
+          crafted to your exact specifications with premium finish.</p>
+        <div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:14px;"><span class="tag">SS Railings</span><span
+            class="tag">MS Gates</span><span class="tag">Canopies</span><span class="tag">Structures</span></div>
       </div>
-      <div class="svc-card rev rd2">
+      <div class="svc-card glass-card" data-aos="fade-up" data-aos-delay="240">
         <div class="svc-n">03</div>
-        <div class="svc-ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#4d9de0"
+        <div class="svc-ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#7dd3fc"
             stroke-width="1.5">
             <rect x="2" y="6" width="20" height="12" rx="1" />
             <path d="M6 6V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v2" />
             <line x1="2" y1="12" x2="22" y2="12" />
           </svg></div>
         <h3 class="svc-name">Aluminium Works</h3>
-        <p class="svc-desc">Sliding windows, casement doors, curtain walls, cladding, and aluminium partition systems —
-          durable, lightweight, and virtually maintenance-free.</p>
-        <div class="svc-bullets"><span class="svc-bullet">Sliding Windows</span><span class="svc-bullet">Curtain
-            Wall</span><span class="svc-bullet">Cladding</span><span class="svc-bullet">Partitions</span></div>
+        <p class="svc-desc">Sliding windows, casement doors, curtain walls, ACP cladding, and aluminium partition
+          systems — durable, lightweight, maintenance-free.</p>
+        <div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:14px;"><span class="tag">Sliding Windows</span><span
+            class="tag">Curtain Wall</span><span class="tag">ACP</span><span class="tag">Partitions</span></div>
       </div>
     </div>
   </section>
 
   <!-- ABOUT -->
   <section class="about" id="about">
-    <div class="about-visual">
-      <img class="about-logo-large rev" src="images/icon.png" alt="Elite Works">
-      <p class="about-quote rev rd1">Every pane of glass we fit is a reflection of the trust our clients place in us.
-      </p>
-      <div class="about-attr rev rd2">Elite Works — Our Promise</div>
-      <div class="stat-row rev rd3">
-        <div class="sbox">
-          <div class="sbox-n">100<span>+</span></div>
-          <div class="sbox-l">Projects</div>
-        </div>
-        <div class="sbox">
-          <div class="sbox-n">5<span>+</span></div>
-          <div class="sbox-l">Years</div>
-        </div>
-        <div class="sbox">
-          <div class="sbox-n">50<span>+</span></div>
-          <div class="sbox-l">Clients</div>
+    <div class="about-grid">
+      <div data-aos="fade-right">
+        <div class="about-glass glass-card">
+          <img class="about-logo" src="images/icon.png" alt="Elite Works">
+          <p class="about-q">"Every pane of glass we fit is a reflection of the trust our clients place in us."</p>
+          <div class="about-attr">Elite Works — Our Promise</div>
+          <div class="trio">
+            <div class="trio-c">
+              <div class="trio-n">100<span>+</span></div>
+              <div class="trio-l">Projects</div>
+            </div>
+            <div class="trio-c">
+              <div class="trio-n">5<span>+</span></div>
+              <div class="trio-l">Years</div>
+            </div>
+            <div class="trio-c">
+              <div class="trio-n">50<span>+</span></div>
+              <div class="trio-l">Clients</div>
+            </div>
+          </div>
         </div>
       </div>
-    </div>
-    <div class="about-content">
-      <p class="sec-eyebrow rev">Why Choose Us</p>
-      <h2 class="sec-title rev rd1" style="margin-bottom:24px;">Built on <em>Trust</em> & Expertise</h2>
-      <div class="feat-list">
-        <div class="feat rev rd1">
-          <div class="feat-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#4d9de0"
-              stroke-width="1.5">
-              <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
-              <circle cx="9" cy="7" r="4" />
-              <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
-              <path d="M16 3.13a4 4 0 0 1 0 7.75" />
-            </svg></div>
-          <div>
-            <h4 class="feat-title">Expert Craftsmen</h4>
-            <p class="feat-desc">Trained professionals who bring precision and passion to every single installation.</p>
+      <div data-aos="fade-left" data-aos-delay="100">
+        <div class="eyebrow">Why Choose Us</div>
+        <h2 class="s-head">Built on <em>Trust</em> & Expertise</h2>
+        <div>
+          <div class="feat">
+            <div class="feat-ico"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#7dd3fc"
+                stroke-width="1.5">
+                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+                <circle cx="9" cy="7" r="4" />
+                <path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75" />
+              </svg></div>
+            <div>
+              <h4 class="feat-t">Expert Craftsmen</h4>
+              <p class="feat-d">Trained professionals who bring precision and passion to every single installation.</p>
+            </div>
           </div>
-        </div>
-        <div class="feat rev rd2">
-          <div class="feat-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#4d9de0"
-              stroke-width="1.5">
-              <polygon
-                points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
-            </svg></div>
-          <div>
-            <h4 class="feat-title">Premium Materials</h4>
-            <p class="feat-desc">High-grade glass, aluminium profiles, and steel systems — quality you can see and feel.
-            </p>
+          <div class="feat">
+            <div class="feat-ico"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#7dd3fc"
+                stroke-width="1.5">
+                <polygon
+                  points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+              </svg></div>
+            <div>
+              <h4 class="feat-t">Premium Materials</h4>
+              <p class="feat-d">High-grade glass, aluminium profiles, and steel systems — quality you can see and feel.
+              </p>
+            </div>
           </div>
-        </div>
-        <div class="feat rev rd3">
-          <div class="feat-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#4d9de0"
-              stroke-width="1.5">
-              <circle cx="12" cy="12" r="10" />
-              <polyline points="12 6 12 12 16 14" />
-            </svg></div>
-          <div>
-            <h4 class="feat-title">On-Time Delivery</h4>
-            <p class="feat-desc">We plan meticulously and execute efficiently — your timeline is our commitment.</p>
+          <div class="feat">
+            <div class="feat-ico"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#7dd3fc"
+                stroke-width="1.5">
+                <circle cx="12" cy="12" r="10" />
+                <polyline points="12 6 12 12 16 14" />
+              </svg></div>
+            <div>
+              <h4 class="feat-t">On-Time Delivery</h4>
+              <p class="feat-d">We plan meticulously and execute efficiently — your timeline is our commitment.</p>
+            </div>
           </div>
-        </div>
-        <div class="feat rev rd4">
-          <div class="feat-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#4d9de0"
-              stroke-width="1.5">
-              <polyline points="9 11 12 14 22 4" />
-              <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11" />
-            </svg></div>
-          <div>
-            <h4 class="feat-title">End-to-End Service</h4>
-            <p class="feat-desc">Design consultation, fabrication, and installation — all handled under one roof.</p>
+          <div class="feat">
+            <div class="feat-ico"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#7dd3fc"
+                stroke-width="1.5">
+                <polyline points="9 11 12 14 22 4" />
+                <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11" />
+              </svg></div>
+            <div>
+              <h4 class="feat-t">End-to-End Service</h4>
+              <p class="feat-d">Design consultation, fabrication, and installation — all handled under one roof.</p>
+            </div>
           </div>
         </div>
       </div>
@@ -2127,99 +2068,96 @@
 
   <!-- PROCESS -->
   <section class="process" id="process">
-    <p class="sec-eyebrow rev">How We Work</p>
-    <h2 class="sec-title rev rd1">Our Simple <em>Process</em></h2>
-    <div class="process-grid">
-      <div class="pcard rev">
-        <div class="pcard-num">1</div>
-        <h4 class="pcard-name">Consultation</h4>
-        <p class="pcard-desc">Discuss your requirements, space, and design preferences with our expert team.</p>
+    <div class="eyebrow" data-aos="fade-right">How We Work</div>
+    <h2 class="s-head" data-aos="fade-up" data-aos-delay="70">Our Simple <em>Process</em></h2>
+    <div class="proc-grid">
+      <div class="p-card glass-card" data-aos="fade-up" data-aos-delay="90">
+        <div class="pnum">1</div>
+        <h4 class="pname">Consultation</h4>
+        <p class="pdesc">Discuss your requirements, space, and design preferences with our expert team.</p>
       </div>
-      <div class="pcard rev rd1">
-        <div class="pcard-num">2</div>
-        <h4 class="pcard-name">Measurement</h4>
-        <p class="pcard-desc">Precise site survey and custom design drawings prepared for your approval.</p>
+      <div class="p-card glass-card" data-aos="fade-up" data-aos-delay="160">
+        <div class="pnum">2</div>
+        <h4 class="pname">Measurement</h4>
+        <p class="pdesc">Precise site survey and custom design drawings prepared for your approval.</p>
       </div>
-      <div class="pcard rev rd2">
-        <div class="pcard-num">3</div>
-        <h4 class="pcard-name">Fabrication</h4>
-        <p class="pcard-desc">Materials sourced and crafted to specification at our dedicated workshop.</p>
+      <div class="p-card glass-card" data-aos="fade-up" data-aos-delay="230">
+        <div class="pnum">3</div>
+        <h4 class="pname">Fabrication</h4>
+        <p class="pdesc">Materials sourced and crafted to specification at our dedicated workshop.</p>
       </div>
-      <div class="pcard rev rd3">
-        <div class="pcard-num">4</div>
-        <h4 class="pcard-name">Installation</h4>
-        <p class="pcard-desc">Clean, professional installation by our skilled team — on time, every time.</p>
+      <div class="p-card glass-card" data-aos="fade-up" data-aos-delay="300">
+        <div class="pnum">4</div>
+        <h4 class="pname">Installation</h4>
+        <p class="pdesc">Clean, professional installation by our skilled team — on time, every time.</p>
       </div>
     </div>
   </section>
 
-  <!-- GALLERY CAROUSEL -->
+  <!-- GALLERY -->
   <section class="gallery" id="projects">
-    <p class="sec-eyebrow rev">Our Work</p>
-    <h2 class="sec-title rev rd1">Featured <em>Projects</em></h2>
-    <div class="carousel-wrap rev rd2">
-      <div class="carousel-track" id="carouselTrack">
-        <div class="carousel-slide"><img src="images/ACP.jpeg" alt="ACP Work"></div>
-        <div class="carousel-slide"><img src="images/ACP1.jpeg" alt="ACP Work"></div>
-        <div class="carousel-slide"><img src="images/Aluminum.jpeg" alt="Aluminium Work"></div>
-        <div class="carousel-slide"><img src="images/SSralings.jpeg" alt="SS Railings"></div>
-        <div class="carousel-slide"><img src="images/glazing.jpeg" alt="Glazing Work"></div>
-        <div class="carousel-slide"><img src="images/shower.jpeg" alt="Shower Enclosure"></div>
-        <div class="carousel-slide"><img src="images/ss.jpeg" alt="SS Work"></div>
+    <div class="eyebrow" data-aos="fade-right">Our Work</div>
+    <h2 class="s-head" data-aos="fade-up" data-aos-delay="70">Featured <em>Projects</em></h2>
+    <div class="carousel glass" data-aos="fade-up" data-aos-delay="140">
+      <div class="c-track" id="cT">
+        <div class="c-slide"><img src="images/ACP.jpeg" alt="ACP Work"></div>
+        <div class="c-slide"><img src="images/ACP1.jpeg" alt="ACP Work"></div>
+        <div class="c-slide"><img src="images/Aluminum.jpeg" alt="Aluminium"></div>
+        <div class="c-slide"><img src="images/SSralings.jpeg" alt="SS Railings"></div>
+        <div class="c-slide"><img src="images/glazing.jpeg" alt="Glazing"></div>
+        <div class="c-slide"><img src="images/shower.jpeg" alt="Shower"></div>
+        <div class="c-slide"><img src="images/ss.jpeg" alt="SS Work"></div>
       </div>
-      <button class="carousel-btn carousel-prev" id="carouselPrev" aria-label="Previous slide">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2">
+      <button class="c-btn c-prev glass" id="cPr"><svg width="17" height="17" viewBox="0 0 24 24" fill="none"
+          stroke="#fff" stroke-width="2">
           <polyline points="15 18 9 12 15 6" />
-        </svg>
-      </button>
-      <button class="carousel-btn carousel-next" id="carouselNext" aria-label="Next slide">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2">
+        </svg></button>
+      <button class="c-btn c-next glass" id="cNx"><svg width="17" height="17" viewBox="0 0 24 24" fill="none"
+          stroke="#fff" stroke-width="2">
           <polyline points="9 6 15 12 9 18" />
-        </svg>
-      </button>
-      <div class="carousel-dots" id="carouselDots"></div>
-      <div class="carousel-swipe-hint">swipe to browse</div>
+        </svg></button>
+      <div class="c-dots" id="cD"></div>
     </div>
   </section>
 
   <!-- TESTIMONIALS -->
-  <section class="testimonials" id="testimonials">
-    <p class="sec-eyebrow rev">Client Reviews</p>
-    <h2 class="sec-title rev rd1">What Our <em>Clients Say</em></h2>
-    <div class="testi-grid">
-      <div class="tcard rev">
-        <div class="tcard-stars"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
-        <p class="tcard-quote">The glass partition they installed in our office is stunning. Precise measurements, clean
-          work, and delivered exactly on time. Highly recommend Elite Works.</p>
-        <div class="tcard-author">
-          <div class="tcard-avatar">R</div>
+  <section class="testi" id="testimonials">
+    <div class="eyebrow" data-aos="fade-right">Client Reviews</div>
+    <h2 class="s-head" data-aos="fade-up" data-aos-delay="70">What Our <em>Clients Say</em></h2>
+    <div class="tg">
+      <div class="t-card glass-card" data-aos="fade-up" data-aos-delay="90">
+        <div class="t-stars"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
+        <p class="t-q">The glass partition they installed in our office is stunning. Precise measurements, clean work,
+          delivered exactly on time. Highly recommend Elite Works.</p>
+        <div class="t-author">
+          <div class="t-av">R</div>
           <div>
-            <div class="tcard-name">Ravi Kumar</div>
-            <div class="tcard-role">Office Owner, Mysuru</div>
+            <div class="t-name">Ravi Kumar</div>
+            <div class="t-role">Office Owner, Mysuru</div>
           </div>
         </div>
       </div>
-      <div class="tcard rev rd1">
-        <div class="tcard-stars"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
-        <p class="tcard-quote">Fantastic SS railing work for our staircase. The finish is premium and the team was very
+      <div class="t-card glass-card" data-aos="fade-up" data-aos-delay="160">
+        <div class="t-stars"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
+        <p class="t-q">Fantastic SS railing work for our staircase. The finish is premium and the team was very
           professional throughout. Will definitely use them again.</p>
-        <div class="tcard-author">
-          <div class="tcard-avatar">P</div>
+        <div class="t-author">
+          <div class="t-av">P</div>
           <div>
-            <div class="tcard-name">Priya Nair</div>
-            <div class="tcard-role">Homeowner, Bengaluru</div>
+            <div class="t-name">Priya Nair</div>
+            <div class="t-role">Homeowner, Bengaluru</div>
           </div>
         </div>
       </div>
-      <div class="tcard rev rd2">
-        <div class="tcard-stars"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
-        <p class="tcard-quote">Our shower enclosure looks absolutely amazing. Elite Works handled everything from design
-          to installation seamlessly. Great value for money.</p>
-        <div class="tcard-author">
-          <div class="tcard-avatar">A</div>
+      <div class="t-card glass-card" data-aos="fade-up" data-aos-delay="230">
+        <div class="t-stars"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
+        <p class="t-q">Our shower enclosure looks absolutely amazing. Elite Works handled everything from design to
+          installation seamlessly. Great value for money.</p>
+        <div class="t-author">
+          <div class="t-av">A</div>
           <div>
-            <div class="tcard-name">Arjun Shetty</div>
-            <div class="tcard-role">Villa Owner, Mysuru</div>
+            <div class="t-name">Arjun Shetty</div>
+            <div class="t-role">Villa Owner, Mysuru</div>
           </div>
         </div>
       </div>
@@ -2228,78 +2166,83 @@
 
   <!-- CONTACT -->
   <section class="contact" id="contact">
-    <div class="cinfo">
-      <p class="sec-eyebrow rev">Get In Touch</p>
-      <h2 class="sec-title rev rd1" style="margin-bottom:20px;">Let's Build <em>Something Great</em></h2>
-      <p class="rev rd2" style="font-size:.86rem;color:var(--muted);line-height:1.8;margin-bottom:32px;">Our team will
-        get back to you within 24 hours with a detailed quote.</p>
-      <div class="cdetail rev rd2">
-        <div class="cicon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#4d9de0"
-            stroke-width="1.5">
-            <path
-              d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.4 2 2 0 0 1 3.59 1.22h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 8.91a16 16 0 0 0 6 6l.77-.77a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 21.73 16.92z" />
-          </svg></div>
-        <div>
-          <div class="clabel">Phone</div>
-          <div class="cval">+91 7411495677</div>
+    <div class="con-grid">
+      <div data-aos="fade-right">
+        <div class="eyebrow">Get In Touch</div>
+        <h2 class="s-head" style="margin-bottom:16px;">Let's Build <em>Something Great</em></h2>
+        <p style="font-size:.84rem;color:var(--muted);line-height:1.82;margin-bottom:26px;">Our team will get back to
+          you within 24 hours with a detailed quote.</p>
+        <div class="cd">
+          <div class="cd-ico glass-sm"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#7dd3fc"
+              stroke-width="1.5">
+              <path
+                d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.4 2 2 0 0 1 3.59 1.22h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 8.91a16 16 0 0 0 6 6l.77-.77a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 21.73 16.92z" />
+            </svg></div>
+          <div>
+            <div class="cd-l">Phone</div>
+            <div class="cd-v">+91 7411495677</div>
+          </div>
+        </div>
+        <div class="cd">
+          <div class="cd-ico glass-sm"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#7dd3fc"
+              stroke-width="1.5">
+              <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+              <polyline points="22,6 12,13 2,6" />
+            </svg></div>
+          <div>
+            <div class="cd-l">Email</div>
+            <div class="cd-v">eliteworks2612@gmail.com</div>
+          </div>
+        </div>
+        <div class="cd">
+          <div class="cd-ico glass-sm"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#7dd3fc"
+              stroke-width="1.5">
+              <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+              <circle cx="12" cy="10" r="3" />
+            </svg></div>
+          <div>
+            <div class="cd-l">Location</div>
+            <div class="cd-v">Mysuru, Karnataka</div>
+          </div>
         </div>
       </div>
-      <div class="cdetail rev rd3">
-        <div class="cicon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#4d9de0"
-            stroke-width="1.5">
-            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
-            <polyline points="22,6 12,13 2,6" />
-          </svg></div>
-        <div>
-          <div class="clabel">Email</div>
-          <div class="cval">eliteworks2612@gmail.com</div>
+      <div data-aos="fade-left" data-aos-delay="110">
+        <div class="form-box glass">
+          <div class="form-hed">Send an Enquiry</div>
+          <div class="f-row">
+            <div><label class="fl">First Name</label><input class="fi" type="text" placeholder="John"></div>
+            <div><label class="fl">Last Name</label><input class="fi" type="text" placeholder="Doe"></div>
+          </div>
+          <div class="fg"><label class="fl">Phone</label><input class="fi" type="tel" placeholder="+91 XXXXX XXXXX">
+          </div>
+          <div class="fg"><label class="fl">Email</label><input class="fi" type="email" placeholder="john@example.com">
+          </div>
+          <div class="fg"><label class="fl">Service</label><select class="fi">
+              <option value="">Select a service</option>
+              <option>Glass Fitting</option>
+              <option>Fabrication Works</option>
+              <option>Aluminium Works</option>
+              <option>Multiple / Other</option>
+            </select></div>
+          <div class="fg"><label class="fl">Project Details</label><textarea class="fi"
+              placeholder="Describe your project — location, size, requirements..."></textarea></div>
+          <button class="fsub" onclick="alert('Thank you! We will contact you within 24 hours.')">Submit Enquiry
+            →</button>
         </div>
       </div>
-      <div class="cdetail rev rd4">
-        <div class="cicon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#4d9de0"
-            stroke-width="1.5">
-            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
-            <circle cx="12" cy="10" r="3" />
-          </svg></div>
-        <div>
-          <div class="clabel">Location</div>
-          <div class="cval">Mysuru, Karnataka</div>
-        </div>
-      </div>
-    </div>
-    <div class="cform rev rd2">
-      <div class="form-hed">Send an Enquiry</div>
-      <div class="frow">
-        <div class="fg"><label>First Name</label><input type="text" placeholder="John"></div>
-        <div class="fg"><label>Last Name</label><input type="text" placeholder="Doe"></div>
-      </div>
-      <div class="fg"><label>Phone Number</label><input type="tel" placeholder="+91 XXXXX XXXXX"></div>
-      <div class="fg"><label>Email Address</label><input type="email" placeholder="john@example.com"></div>
-      <div class="fg"><label>Service Required</label><select>
-          <option value="">Select a service</option>
-          <option>Glass Fitting</option>
-          <option>Fabrication Works</option>
-          <option>Aluminium Works</option>
-          <option>Multiple / Other</option>
-        </select></div>
-      <div class="fg"><label>Project Details</label><textarea
-          placeholder="Describe your project — location, size, requirements..."></textarea></div>
-      <button class="fsubmit" onclick="alert('Thank you! We will contact you within 24 hours.')">Submit Enquiry
-        →</button>
     </div>
   </section>
 
   <!-- FOOTER -->
   <footer>
-    <div class="footer-top">
-      <div class="footer-brand">
-        <img src="images/icon.png" alt="Elite Works Logo">
+    <div class="ft">
+      <div class="fb"><img src="images/icon.png" alt="Elite Works">
         <div>
-          <div class="footer-name">Elite Works</div>
-          <div class="footer-tagline">Glass · Fabrication · Aluminium</div>
+          <div class="fb-n">Elite Works</div>
+          <div class="fb-s">Glass · Fabrication · Aluminium</div>
         </div>
       </div>
-      <div class="fcol">
+      <div class="fc">
         <h5>Services</h5>
         <ul>
           <li><a href="#services">Glass Fitting</a></li>
@@ -2307,7 +2250,7 @@
           <li><a href="#services">Aluminium Works</a></li>
         </ul>
       </div>
-      <div class="fcol">
+      <div class="fc">
         <h5>Company</h5>
         <ul>
           <li><a href="#about">About Us</a></li>
@@ -2316,7 +2259,7 @@
           <li><a href="#contact">Contact</a></li>
         </ul>
       </div>
-      <div class="fcol">
+      <div class="fc">
         <h5>Contact</h5>
         <ul>
           <li><a href="tel:+917411495677">+91 7411495677</a></li>
@@ -2325,101 +2268,86 @@
         </ul>
       </div>
     </div>
-    <div class="footer-bottom">
-      <div class="fcopy">© 2025 Elite Works. All rights reserved.</div>
-      <div class="fmade">Precision · Quality · Trust</div>
+    <div class="fb2">
+      <div class="fc2">© 2025 Elite Works. All rights reserved.</div>
+      <div class="fm">Precision · Quality · Trust</div>
     </div>
   </footer>
 
   <script>
-    /* ── Cursor ── */
-    const cur = document.getElementById('cur'), ring = document.getElementById('cur-r');
+    /* AOS */
+    AOS.init({ once: true, duration: 680, easing: 'ease-out-cubic', offset: 55 });
+
+    /* Cursor */
+    const cur = document.getElementById('cur'), curR = document.getElementById('curR');
+    let isTouch = false;
+    window.addEventListener('touchstart', () => { isTouch = true; cur.style.display = 'none'; curR.style.display = 'none'; }, { once: true, passive: true });
     document.addEventListener('mousemove', e => {
+      if (isTouch) return;
       cur.style.left = e.clientX + 'px'; cur.style.top = e.clientY + 'px';
-      setTimeout(() => { ring.style.left = e.clientX + 'px'; ring.style.top = e.clientY + 'px'; }, 65);
+      setTimeout(() => { curR.style.left = e.clientX + 'px'; curR.style.top = e.clientY + 'px'; }, 58);
     });
     document.querySelectorAll('a,button').forEach(el => {
-      el.addEventListener('mouseenter', () => { cur.style.width = '14px'; cur.style.height = '14px'; ring.style.width = '42px'; ring.style.height = '42px'; });
-      el.addEventListener('mouseleave', () => { cur.style.width = '7px'; cur.style.height = '7px'; ring.style.width = '28px'; ring.style.height = '28px'; });
+      el.addEventListener('mouseenter', () => { cur.style.width = '13px'; cur.style.height = '13px'; curR.style.width = '40px'; curR.style.height = '40px'; });
+      el.addEventListener('mouseleave', () => { cur.style.width = '7px'; cur.style.height = '7px'; curR.style.width = '26px'; curR.style.height = '26px'; });
     });
 
-    /* ── Nav scroll + active ── */
-    const nav = document.getElementById('nav');
-    const sections = document.querySelectorAll('section[id]');
-    const navAs = document.querySelectorAll('.nav-links a');
-    window.addEventListener('scroll', () => {
-      nav.classList.toggle('scrolled', scrollY > 50);
-      document.getElementById('scrollTop').classList.toggle('show', scrollY > 400);
-      let cur = '';
-      sections.forEach(s => { if (scrollY >= s.offsetTop - 120) cur = s.id; });
-      navAs.forEach(a => { a.classList.toggle('active', a.getAttribute('href') === '#' + cur); });
-    });
-
-    /* ── Theme toggle ── */
+    /* Theme */
     const html = document.documentElement;
-    const toggle = document.getElementById('themeToggle');
-    const saved = localStorage.getItem('ew-theme') || 'dark';
-    html.setAttribute('data-theme', saved);
-    toggle.addEventListener('click', () => {
-      const t = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
-      html.setAttribute('data-theme', t);
-      localStorage.setItem('ew-theme', t);
+    const saved = localStorage.getItem('ew2-theme') || 'dark';
+    html.className = saved;
+    document.getElementById('thBtn').addEventListener('click', () => {
+      const n = html.className === 'dark' ? 'light' : 'dark';
+      html.className = n; localStorage.setItem('ew2-theme', n);
     });
 
-    /* ── Hamburger ── */
-    const burger = document.getElementById('hamburger');
-    const mobileNav = document.getElementById('mobileNav');
-    burger.addEventListener('click', () => {
-      mobileNav.classList.toggle('open');
-      const spans = burger.querySelectorAll('span');
-      if (mobileNav.classList.contains('open')) {
-        spans[0].style.transform = 'rotate(45deg) translate(5px,5px)';
-        spans[1].style.opacity = '0';
-        spans[2].style.transform = 'rotate(-45deg) translate(5px,-5px)';
-      } else closeMobile();
+    /* Nav */
+    const navEl = document.getElementById('nav');
+    const secs = [...document.querySelectorAll('section[id]')];
+    const nls = [...document.querySelectorAll('.nl')];
+    window.addEventListener('scroll', () => {
+      navEl.classList.toggle('scrolled', scrollY > 48);
+      document.getElementById('stt').classList.toggle('on', scrollY > 380);
+      let cur2 = ''; secs.forEach(s => { if (scrollY >= s.offsetTop - 120) cur2 = s.id; });
+      nls.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + cur2));
+    }, { passive: true });
+
+    /* Hamburger */
+    const hbg = document.getElementById('hbg'), mDr = document.getElementById('mDr');
+    hbg.addEventListener('click', () => {
+      const open = mDr.classList.toggle('open');
+      const [s1, s2, s3] = hbg.querySelectorAll('span');
+      s1.style.transform = open ? 'rotate(45deg) translate(5px,5px)' : '';
+      s2.style.opacity = open ? '0' : '';
+      s3.style.transform = open ? 'rotate(-45deg) translate(5px,-5px)' : '';
     });
-    function closeMobile() {
-      mobileNav.classList.remove('open');
-      const spans = burger.querySelectorAll('span');
-      spans[0].style.transform = ''; spans[1].style.opacity = ''; spans[2].style.transform = '';
+    function cMob() {
+      mDr.classList.remove('open');
+      hbg.querySelectorAll('span').forEach(s => { s.style.transform = ''; s.style.opacity = ''; });
     }
 
-    /* ── Reveal on scroll ── */
-    const obs = new IntersectionObserver(entries => entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('vis'); }), { threshold: .1 });
-    document.querySelectorAll('.rev').forEach(el => obs.observe(el));
-
-    /* ── Carousel ── */
-    const track = document.getElementById('carouselTrack');
-    if (track) {
-      const slides = Array.from(track.children);
-      const nextBtn = document.getElementById('carouselNext');
-      const prevBtn = document.getElementById('carouselPrev');
-      const dotsNav = document.getElementById('carouselDots');
-      slides.forEach((_, i) => { const d = document.createElement('button'); d.classList.add('carousel-dot'); if (i === 0) d.classList.add('active'); d.dataset.idx = i; dotsNav.appendChild(d); });
-      const dots = Array.from(dotsNav.children);
-      let curIdx = 0, autoPlay;
-      const upd = idx => { if (idx < 0) idx = slides.length - 1; if (idx >= slides.length) idx = 0; track.style.transform = `translateX(-${idx * 100}%)`; dots.forEach(d => d.classList.remove('active')); dots[idx].classList.add('active'); curIdx = idx; };
-      const start = () => { autoPlay = setInterval(() => upd(curIdx + 1), 4000); };
-      const reset = () => { clearInterval(autoPlay); start(); };
-      nextBtn.addEventListener('click', () => { upd(curIdx + 1); reset(); });
-      prevBtn.addEventListener('click', () => { upd(curIdx - 1); reset(); });
-      dotsNav.addEventListener('click', e => { const t = e.target.closest('.carousel-dot'); if (!t) return; upd(parseInt(t.dataset.idx, 10)); reset(); });
+    /* Carousel */
+    const cT = document.getElementById('cT');
+    if (cT) {
+      const slides = [...cT.children], dotsEl = document.getElementById('cD');
+      slides.forEach((_, i) => { const d = document.createElement('button'); d.className = 'cdot' + (i === 0 ? ' on' : ''); d.dataset.i = i; dotsEl.appendChild(d); });
+      const dots = [...dotsEl.children];
+      let idx = 0, tmr;
+      const go = n => {
+        if (n < 0) n = slides.length - 1; if (n >= slides.length) n = 0;
+        cT.style.transform = `translateX(-${n * 100}%)`;
+        dots.forEach(d => d.classList.remove('on')); dots[n].classList.add('on'); idx = n;
+      };
+      const start = () => { tmr = setInterval(() => go(idx + 1), 4000); };
+      const reset = () => { clearInterval(tmr); start(); };
+      document.getElementById('cNx').onclick = () => { go(idx + 1); reset(); };
+      document.getElementById('cPr').onclick = () => { go(idx - 1); reset(); };
+      dotsEl.addEventListener('click', e => { const t = e.target.closest('.cdot'); if (t) { go(+t.dataset.i); reset(); } });
+      let tx = 0;
+      cT.addEventListener('touchstart', e => { tx = e.changedTouches[0].screenX; }, { passive: true });
+      cT.addEventListener('touchend', e => { const d = tx - e.changedTouches[0].screenX; if (Math.abs(d) > 42) { d > 0 ? go(idx + 1) : go(idx - 1); reset(); } }, { passive: true });
       start();
-
-      /* Touch swipe */
-      let txStart = 0;
-      track.addEventListener('touchstart', e => { txStart = e.changedTouches[0].screenX; }, { passive: true });
-      track.addEventListener('touchend', e => {
-        const diff = txStart - e.changedTouches[0].screenX;
-        if (Math.abs(diff) > 44) { diff > 0 ? upd(curIdx + 1) : upd(curIdx - 1); reset(); }
-      }, { passive: true });
     }
-
-    /* Hide custom cursor on touch devices */
-    window.addEventListener('touchstart', () => {
-      document.getElementById('cur').style.display = 'none';
-      document.getElementById('cur-r').style.display = 'none';
-    }, { once: true, passive: true });
   </script>
 </body>
 
